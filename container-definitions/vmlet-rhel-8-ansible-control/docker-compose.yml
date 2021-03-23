@@ -1,0 +1,19 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  vmlet-rhel-8-base:
+    container_name: vmlet-rhel-8-base
+    hostname: vmlet-rhel-8-base
+    image: vmlet-rhel-8-base
+    ports:
+      - "2222:22"
+    privileged: true
+
+...
