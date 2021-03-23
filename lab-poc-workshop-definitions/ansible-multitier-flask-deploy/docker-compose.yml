@@ -1,0 +1,21 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  control:
+    container_name: control
+    hostname: control
+    image: vmlet-rhel-8-base
+    privileged: true
+    ports:
+      - "2022:22"
+
+  target:
+    container_name: target
+    hostname: target
+    image: vmlet-rhel-8-base
+    privileged: true
