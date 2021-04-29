@@ -1,0 +1,20 @@
+== Overview
+
+*Dojo* or more fully dojo-ansible-container-toolkit is an all in one container-based toolkit for simply building, constructing, and running lab, workshops, PoCs etc in containers.
+
+
+
+=== Use Cases
+
+=== Architecture
+
+
+
+=== Example 
+
+
+
+
+=== Security
+
+Be aware that in most cases, some or all containers run with the `--privileged` option, which is, of course, a potential security hazard.
