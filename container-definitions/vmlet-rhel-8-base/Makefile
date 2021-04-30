@@ -18,6 +18,16 @@ build-epel:
 		--build-arg=RHEL_VERSION=${RHELVERSION} \
 		--squash .
 
+tag:
+	docker tag ${CONTAINER_NAME} \
+		tonykay/${CONTAINER_NAME}:latest
+
+push:
+	docker push tonykay/${CONTAINER_NAME}:latest
+
+scan:
+	docker scan ${CONTAINER_NAME} \
+
 run:
 	docker run \
 		-d \

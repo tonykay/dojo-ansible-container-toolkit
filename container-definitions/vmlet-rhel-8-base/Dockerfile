@@ -43,6 +43,7 @@ RUN dnf update -y \
       hardlink \
       hostname \
       iputils \
+      iproute \
       less \
       openssh-clients \
       python${PYTHON_VERSION:-36} \
