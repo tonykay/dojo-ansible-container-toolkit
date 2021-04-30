@@ -1,0 +1,76 @@
+== Overview
+
+
+== Structure
+
+Name your container well and clearly:
+
+* `vmlet-*` If it runs sshd and behaves "like" a traditional VM
+* `service-*` If it provides a service such as `httpd` or a web based terminal for example
+
+
+=== Base Images
+
+If intended as a *base* image then end it *base*: `service-rhel-8-terminal-base`
+A base image is one that is intended to be the base for more specfic production images.
+For example the `service-rhel-8-terminal-base` is derived fro `ubi-init` and provides a simple web based terminal.
+For typical use this can be extended for example with `ansible`, `openshift`, or `openstack` tooling.
+
+
+Each entry needs to have:
+
+. Dockerfile - a *clean* effcient Dockerfile
+. Makefile
+. docker-compose
+
++
+[source,bash]
+----
+<container>
+  ├── Dockerfile
+  ├── Makefile
+  ├── README.adoc
+  └── docker-compose.yml
+----
+=== Dockerfile
+
+Keep this clean and effcient, each image should generally have a single purpose.
+
+
+=== Makefile
+
+Create a Makefile or copy this one from link:vmlet-rhel-8-base/Makefile[vmlet-rhel-8-base]
+The Makefile should support the following Docker operations:
+
+* `build`
+* `scan`
+* `tag`
+* `push`
+* `release` full build, tag, push i.e. `release: build scan tag push` 
+* `run` with "typical" settings i.e. as you would expect to use the image
+* `run-shell` 
+
+This is both a convenience and also allows consistency and for others to replicate your builds accurately etc.
+To use this obviously you need `make` and typicall syntax in `make build` etc.
+
+[NOTE]
+====
+Intention is too also add buildah support etc and skopeo.
+Feel free to add
+
+====
+
+
+vmlet-rhel-8-base
+├── Dockerfile
+├── Dockerfile-vmlet-rhel-8-epel
+├── Makefile
+├── docker-compose.yml
+├── docker-entrypoint.sh
+├── ssh.cfg
+└── ssh_config_dir_resources
+    ├── authorized_keys
+    ├── config
+    └── vagrant.pem
+
+1 directory, 9 files
