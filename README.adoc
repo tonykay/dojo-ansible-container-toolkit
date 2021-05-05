@@ -1,10 +1,44 @@
 == Overview
 
 *Dojo* or more fully dojo-ansible-container-toolkit is an all in one container-based toolkit for simply building, constructing, and running lab, workshops, PoCs etc in containers.
+It allows the user to run locally or remotely typical ansible lab environemnts via either `docker` or `podman`.
+Containers, aka *vmlets* typically run both `init`, `sshd` and support systemd.
+So they appear similar to VMs or instances rather than contianers *and* support modules such as `service` e.g. you can enable
+`httpd` etc.
+
+=== Quick 3 minute example
 
 
 
-=== Use Cases
+=== Pre-requisites
+
+* Container run-time
+** `docker`
+** `podman`
+* `docker-compose`
+** `podman 3` supports docker-compose
+** `podman 2` can be extended via `pip3 install podman-compose`
+
+
+
+
+=== Motivations and Use Cases
+
+Like many developers, admins, architects etc I always loved `vagrant` but found it heavy
+In complex environments setting up vagrant was painful and resource hungry.
+Being ex Sun 
+
+Plus yaml is easier to read, IMO, than a ruby Vagrantfile
+
+
+
+101 Things you can do with Dojo
+
+* Very rapidly modify deployments on the fly
+** i.e. you can add in an additional webserver whilst continuing to work
+* save your work
+
+
 
 === Architecture
 
@@ -18,3 +52,26 @@
 === Security
 
 Be aware that in most cases, some or all containers run with the `--privileged` option, which is, of course, a potential security hazard.
+
+
+
+
+:scrollbar:
+:data-uri:
+
+== SLIDE TITLE
+
+
+ifdef::showscript[]
+Transcript:
+
+endif::showscript[]
+
++
+[TIP]
+====
+
+====
++
+image::images/
+[width=100%]
