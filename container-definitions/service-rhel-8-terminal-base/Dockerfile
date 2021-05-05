@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.0-experimental
 
-FROM registry.access.redhat.com/ubi8/ubi:${RHEL_VERSION:-latest}
-#FROM vmlet-rhel-8-base
+#FROM registry.access.redhat.com/ubi8/ubi:${RHEL_VERSION:-latest}
+FROM vmlet-rhel-8-base
 
 LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com"
 

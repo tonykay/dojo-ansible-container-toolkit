@@ -8,7 +8,9 @@ build:
 		-f Dockerfile \
 		-t ${CONTAINER_NAME} \
 		--build-arg=RHEL_VERSION=${RHEL_VERSION} \
-		--squash .
+		${EXTRA_ARGS} .
+
+#		--squash .
 
 build-epel:
 	DOCKER_BUILDKIT=1 \

@@ -5,6 +5,8 @@ version: "3"
 networks:
   default:
     name: example.com
+      #        - subnet: 172.22.0.0/16
+
 
 services:
 
@@ -15,5 +17,22 @@ services:
     ports:
       - "2222:22"
     privileged: true
-
+#    networks:
+#      default:
+#        ipv4_address: 172.22.0.100
+#
 ...
+
+#version: '3.5'
+#services:
+#  service1:
+#  image: service1:latest
+#  networks:
+#    service1_net:
+#      ipv4_address: 172.22.0.100
+#networks:
+#  service1_net:
+#    ipam:4Y
+#      driver: default
+#      config:
+#        - subnet: 172.22.0.0/16
