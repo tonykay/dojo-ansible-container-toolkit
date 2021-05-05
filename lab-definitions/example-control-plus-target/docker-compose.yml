@@ -1,0 +1,25 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  control:
+    image: vmlet-rhel-8-ansible-control
+    hostname: control
+    container_name: control
+    ports:
+      - "2222:22"
+    privileged: true
+
+  node-01:
+    image: vmlet-rhel-8-base
+    container_name: node-01
+    hostname: node-01
+    privileged: true
+
+...
