@@ -2,6 +2,8 @@ RHEL_VERSION=8.3
 SSH_PORT=2222
 CONTAINER_NAME=vmlet-rhel-8-ansible-control
 
+complete: build scan tag push
+
 build:
 	DOCKER_BUILDKIT=1 \
 		docker build \

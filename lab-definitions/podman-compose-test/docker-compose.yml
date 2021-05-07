@@ -1,0 +1,21 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  control:
+    image: registry.access.redhat.com/ubi8/ubi-init
+    hostname: control
+    container_name: control
+
+  node-01:
+    image: registry.access.redhat.com/ubi8/ubi-init
+    container_name: node-01
+    hostname: node-01
+
+...
