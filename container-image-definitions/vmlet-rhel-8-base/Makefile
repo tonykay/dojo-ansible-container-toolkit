@@ -1,6 +1,8 @@
+CONTAINER_NAME=vmlet-rhel-8-base
+
 RHEL_VERSION=8.3
 SSH_PORT=2222
-CONTAINER_NAME=vmlet-rhel-8-base
+# REGISTRY=docker.io/tonykay
 REGISTRY=quay.io/tonykay
 
 # make list: list all options
@@ -38,7 +40,15 @@ scan:
 
 build2push: build scan tag push
 
-run:
+docker-login:
+	docker login ${REGISTRY}
+
+podman-login:
+	podman login ${REGISTRY}
+
+run: docker-run
+
+docker-run:
 	docker run \
 		-d \
 		--privileged \
@@ -48,11 +58,33 @@ run:
 		-p ${SSH_PORT}:22 \
 		${CONTAINER_NAME} 
 
-run-shell:
+podman-run:
+	podman run \
+		-d \
+		--privileged \
+		--name ${CONTAINER_NAME} \
+		--hostname ${CONTAINER_NAME} \
+		--rm \
+		-p ${SSH_PORT}:22 \
+		${REGISTRY}/${CONTAINER_NAME}:latest
+
+docker-run-shell:
 	docker run \
 		-it \
 		--rm \
 		--privileged \
 		--name ${CONTAINER_NAME} \
 		--hostname ${CONTAINER_NAME} \
-		${CONTAINER_NAME} 
+		${CONTAINER_NAME} sudo su - devops
+
+podman-run-shell:
+	docker run \
+		-it \
+		--rm \
+		--privileged \
+		--name ${CONTAINER_NAME} \
+		--hostname ${CONTAINER_NAME} \
+		${CONTAINER_NAME} sudo su - devops
+
+docker-kill:
+	docker kill ${CONTAINER_NAME}
