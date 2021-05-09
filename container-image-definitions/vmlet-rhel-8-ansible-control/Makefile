@@ -4,42 +4,16 @@ SSH_PORT=2222
 # REGISTRY=docker.io/tonykay
 REGISTRY=quay.io/tonykay
 
-# make list: list all options
+: ## TIP! make supports tab completion with *modern* shells e.g. zsh etc
+: ##  
 
-.PHONY: list
-list:
-	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
+help: ## Show this help
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-# EXTRA_ARGS='--squash' for example
+# Thanks to victoria.dev for the above syntax
+# https://victoria.dev/blog/how-to-create-a-self-documenting-makefile/
 
-
-help:
-	echo "Best executed make help -s"
-	echo
-	echo "help:               Show this help, best executed make help -s"
-	echo "build:              Do a docker based build"
-	echo "                      make build EXTRA_ARGS='--squash'"
-	echo "build-epel:         Do a docker based build using a Dockerfile with EPEL"
-	echo "                      make build-epel EXTRA_ARGS='--squash'"
-	echo "tag:                Tag the image"
-	echo "scan:               Scan an image using synk"
-	echo "push:               Push an image"
-	echo "complete:           build scan tag push - Do a complete build to push workflow"
-	echo "build2push:         same as 'complete'"
-	echo "docker-login:       Login to registry via docker command"
-	echo "podman-login:       Login to registry via podman command"
-	echo "run:                Run image via docker with sensible defaults, alias for docker-run"
-	echo "docker-run:         Run image via docker with sensible defaults"
-	echo "podman-run:         Run image via podman with sensible defaults"
-	echo "docker-attach:      Attach to *RUNNING* container via 'docker exec -it"
-	echo "podman-attach:      Attach to *RUNNING* container via 'podman exec -it"
-	echo "docker-run-shell:   Run image via docker with sensible defaults"
-	echo "podman-run-shell:   Run image via podman with sensible defaults"
-
-#docker-kill:
-
-
-build:
+build: ## Do a docker based build
 	DOCKER_BUILDKIT=1 \
 		docker build \
 		-f Dockerfile \
@@ -47,7 +21,8 @@ build:
 		--build-arg=RHEL_VERSION=${RHEL_VERSION} \
 		${EXTRA_ARGS} .
 
-build-epel:
+
+build-epel: ## Do a docker based build using a Dockerfile with EPEL
 	DOCKER_BUILDKIT=1 \
 		docker build \
 		-f Dockerfile-vmlet-rhel-8-epel \
@@ -55,28 +30,25 @@ build-epel:
 		--build-arg=RHEL_VERSION=${RHELVERSION} \
 		${EXTRA_ARGS} .
 
-tag:
+
+tag: ## Tag the image
 	docker tag ${CONTAINER_NAME} ${REGISTRY}/${CONTAINER_NAME}:latest
 
-push:
+push: ## Push the image to remote registry
 	docker push ${REGISTRY}/${CONTAINER_NAME}:latest
 
-scan:
+scan: ## Scan an image using synk
 	docker scan ${CONTAINER_NAME} \
 
-complete: build2push
+complete: build scan tag push ## build -> scan -> tag -> push - Do a complete build to push workflow
 
-build2push: build scan tag push
-
-docker-login:
+docker-login: ## Login to registry via docker command
 	docker login ${REGISTRY}
 
-podman-login:
+podman-login: Login to registry via podman command 
 	podman login ${REGISTRY}
 
-run: docker-run
-
-docker-run:
+docker-run: ## Run image via docker with sensible defaults
 	docker run \
 		-d \
 		--privileged \
@@ -85,11 +57,8 @@ docker-run:
 		--rm \
 		-p ${SSH_PORT}:22 \
 		${CONTAINER_NAME} 
-	
-docker-attach:
-	docker exec -it ${CONTAINER_NAME} sudo su - devops
 
-podman-run:
+podman-run: ## Run image via podman with sensible defaults
 	podman run \
 		-d \
 		--privileged \
@@ -99,7 +68,7 @@ podman-run:
 		-p ${SSH_PORT}:22 \
 		${REGISTRY}/${CONTAINER_NAME}:latest
 
-docker-run-shell:
+docker-run-shell: ## Run image via docker with sensible defaults
 	docker run \
 		-it \
 		--rm \
@@ -108,7 +77,7 @@ docker-run-shell:
 		--hostname ${CONTAINER_NAME} \
 		${CONTAINER_NAME} sudo su - devops
 
-podman-run-shell:
+podman-run-shell: ## Run image via podman with sensible defaults
 	docker run \
 		-it \
 		--rm \
@@ -117,42 +86,9 @@ podman-run-shell:
 		--hostname ${CONTAINER_NAME} \
 		${CONTAINER_NAME} sudo su - devops
 
-docker-kill:
-	docker kill ${CONTAINER_NAME}
+docker-attach: ## Attach to a container via docker with the devops user shell
+	docker exec -it ${CONTAINER_NAME} sudo su - devops
 
-#complete: build scan tag push
-#
-#build:
-#	DOCKER_BUILDKIT=1 \
-#		docker build \
-#		-f Dockerfile \
-#		-t ${CONTAINER_NAME} \
-#		--build-arg=RHEL_VERSION=${RHEL_VERSION} \
-#		--squash .
-#
-#build-epel:
-#	DOCKER_BUILDKIT=1 \
-#		docker build \
-#		-f Dockerfile-vmlet-rhel-8-epel \
-#		-t ${CONTAINER_NAME}-epel \
-#		--build-arg=RHEL_VERSION=${RHELVERSION} \
-#		--squash .
-#
-#run:
-#	docker run \
-#		-d \
-#		--privileged \
-#		--name ${CONTAINER_NAME} \
-#		--hostname ${CONTAINER_NAME} \
-#		--rm \
-#		-p ${SSH_PORT}:22 \
-#		${CONTAINER_NAME} 
-#
-#run-shell:
-#	docker run \
-#		-it \
-#		--rm \
-#		--privileged \
-#		--name ${CONTAINER_NAME} \
-#		--hostname ${CONTAINER_NAME} \
-#		${CONTAINER_NAME} 
+podman-attach: ## Attach to a container via podman with the devops user shell
+	docker exec -it ${CONTAINER_NAME} sudo su - devops
+
