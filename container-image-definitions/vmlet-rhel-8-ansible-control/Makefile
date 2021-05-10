@@ -7,7 +7,7 @@ REGISTRY=quay.io/tonykay
 : ## TIP! make supports tab completion with *modern* shells e.g. zsh etc
 : ##  
 
-help: ## Show this help
+help: ## Show this help - technically unnecessary as `make` alone will do 
 	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 # Thanks to victoria.dev for the above syntax
