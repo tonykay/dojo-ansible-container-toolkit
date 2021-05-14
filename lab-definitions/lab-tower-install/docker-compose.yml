@@ -1,0 +1,29 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  tower:
+    container_name: tower
+    hostname: tower
+    image: vmlet-rhel-8-ansible-control
+    privileged: true
+    ports:
+      - "2022:22"
+    volumes:
+      - "~/repos/:/home/devops/shared_dir:z,rw"
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 4G
+
+  target:
+    container_name: target
+    hostname: target
+    image: vmlet-rhel-8-base
+    privileged: true

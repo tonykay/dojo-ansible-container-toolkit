@@ -1,0 +1,59 @@
+---
+- name: Add Red Jat Network Subscription
+  hosts: all
+  become: yes
+  vars:
+    rhel_8_repos:
+      - rhel-8-for-x86_64-baseos-rpms  
+      - rhel-8-for-x86_64-appstream-rpms
+      - ansible-2.9-for-rhel-8-x86_64-rpms  
+
+  vars_files:
+
+    - ~tok/secrets/rhel-subscription.yml
+      # - ~tok/secrets/ansible-advanced-satellite-secret.yml # New AA sat sub
+
+  tasks:
+
+    - name: Setup base subscriptions and RHN
+      block:    
+        - name: Activate RHEL subscription
+          redhat_subscription:
+            activationkey:    "{{ rhel_activationkey }}"
+            org_id:           "{{ rhel_org_id }}"   
+            server_insecure:  true
+              # activationkey:    "{{ rhel_activationkey  | default(satellite_activationkey) }}"
+              # org_id:           "{{ rhel_org_id         | default(satellite_org) }}"   
+              # server_hostname:  "{{ rhel_server_name    | default(satellite_url) | default(omit) }}"
+              # server_insecure:  true
+          ignore_errors: true
+
+#        - name: Disable all RHSM repositories
+#          rhsm_repository:
+#            name: '*'
+#            state: disabled
+#
+#        - name: Enable repositories 
+#          rhsm_repository:
+#            name: "{{ __repos }}"
+#            state: enabled
+#          loop: "{{ rhel_8_repos }}"     
+#          loop_control:
+#            loop_var: __repos
+#
+#        - name: Install packages
+#          yum:
+#            name:     "{{ rhel_8_packages }}"
+#            state:    present
+#          ignore_errors: true
+#      tags:
+#        - rhn      
+#        - base_packages
+#
+#    - name: Envy Setup
+#
+#    - name: Setup system python as python3
+#      command: "alternatives --set python /usr/bin/python3"
+#      changed_when: false
+#...
+#
