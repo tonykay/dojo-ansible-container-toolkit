@@ -1,0 +1,50 @@
+---
+
+networks:
+  network_1:
+    name: network_1
+  network_2:
+    name: network_2
+  network_3:
+    name: network_3
+
+#  default:
+#      name: example.com
+
+services:
+
+  control:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: control
+    hostname: control
+    privileged: true
+    ports:
+      - "2222:22"
+    networks:
+      - network_1
+
+  jump_1:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: jump_1
+    hostname: target
+    privileged: true
+    networks:
+      - network_1
+      - network_2
+
+  jump_2:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: jump_2
+    hostname: target
+    privileged: true
+    networks:
+      - network_2
+      - network_3
+
+  target:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: target
+    hostname: target
+    privileged: true
+    networks:
+      - network_3
