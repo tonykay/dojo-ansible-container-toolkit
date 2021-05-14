@@ -1,0 +1,17 @@
+== Overview
+
+Simple triple jump ssh demo using `ProxyJump` directive in an `ssh.cfg`
+
+
+Host -> control -> jump_1 -> jump_2 -> taget
+
+
+=== Usage
+
++
+[source,bash]
+----
+docker compose up -d
+ssh -F ssh.cfg target
+----
+
