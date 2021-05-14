@@ -8,10 +8,10 @@ networks:
 
 services:
 
-  vmlet-rhel-8-base:
-    container_name: vmlet-rhel-8-base
-    hostname: vmlet-rhel-8-base
-    image: vmlet-rhel-8-base
+  control:
+    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
+    container_name: control
+    hostname: control
     ports:
       - "2222:22"
     privileged: true

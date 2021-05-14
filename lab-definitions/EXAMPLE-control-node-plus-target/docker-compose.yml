@@ -9,7 +9,7 @@ networks:
 services:
 
   control:
-    image: vmlet-rhel-8-ansible-control
+    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
     hostname: control
     container_name: control
     ports:
@@ -17,7 +17,7 @@ services:
     privileged: true
 
   node-01:
-    image: vmlet-rhel-8-base
+    image: quay.io/tonykay/vmlet-rhel-8-base
     container_name: node-01
     hostname: node-01
     privileged: true

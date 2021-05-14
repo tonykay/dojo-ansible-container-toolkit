@@ -9,7 +9,7 @@ services:
   control:
     container_name: control
     hostname: control
-    image: vmlet-rhel-8-ansible-control
+    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
     privileged: true
     ports:
       - "2022:22"
@@ -20,5 +20,5 @@ services:
   target:
     container_name: target
     hostname: target
-    image: vmlet-rhel-8-base
+    image: quay.io/tonykay/vmlet-rhel-8-base
     privileged: true
