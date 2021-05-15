@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Ansible Refactoring (Dev Mode)</title>
+    <link rel="canonical" href="http://localhost:3000/rhs-build-course/index.html/template-tutorial/04-ansible-refactoring-first-refactor.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="http://localhost:3000/rhs-build-course/index.html">Ansible Refactoring (Dev Mode)</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="template-tutorial" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Refactoring</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-ansible-refactoring-overview.html">1. Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#infrastructure">The Infrastructure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#application">The Application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html">2. Setting up your Control Node</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#environment">Your Environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#connect">Connect to your Control Node</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#explore">Explore your Control Node</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html">3. First Deploy</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html#deploy">Deploy</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html">4. First Refactor</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#approach">Approach</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#variables">Refactor the Variables</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#templates">Cleanup the Templates</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html">5. Moving to Roles Part 1</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#postgres2role">Convert Postgres Play to Role</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#solution">Solution</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Refactoring</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Refactoring</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Refactoring</a></li>
+    <li><a href="04-ansible-refactoring-first-refactor.html">4. First Refactor</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/tok/Dropbox/MBP15/repos/classroom-multi/documentation/modules/ROOT/pages/04-ansible-refactoring-first-refactor.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_first_refactor"><a class="anchor" href="#_first_refactor"></a>First Refactor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In our first pass through the project we will just focus on breaking it up into more modular components, breaking apart the variables from the code, and cleaning up the base directory by moving out any files or templates into sub-directories.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Process</div>
+<ol class="arabic">
+<li>
+<p>Break <code>main.yml</code> into 3 purpose based playbooks</p>
+</li>
+<li>
+<p>Create a <code>site.yml</code> wrapper to allow a full deploy with 1 run of <code>ansible-playbook</code></p>
+</li>
+<li>
+<p>Break out the variables into separate files</p>
+</li>
+<li>
+<p>Clean up the project directory</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Move any templates into a <code>./templates</code> directory <strong>and</strong> update playbooks</p>
+</li>
+<li>
+<p>Move any files (e.g. used by <code>copy</code> module or similar) into a <code>./files</code> directory <strong>and</strong> update playbooks</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="approach"><a class="anchor" href="#approach"></a>Refactor Approach</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make a refactor <code>git</code> branch</p>
+<div class="paragraph">
+<p>Even if you don&#8217;t use <code>git</code> or other SCM (Source Code Management) tool it is a very good place to start.
+This will give you safety, and confidence, to make major changes with little to no risk.
+We&#8217;ll introduce basic git commands as we go along.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git checkout -b refactor-pass-01</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">Switched to a new branch 'refactor-pass-01'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cp main.yml provision_database_tier.yml
+cp main.yml provision_app_tier.yml
+cp main.yml provision_load_balancer_tier.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Edit each file so it contains only the appropriate play</p>
+<div class="paragraph">
+<p>Using the editor of your choice, <code>vim</code> is installed, delete the redundant extra plays from each of your new files.
+Your objective is to have 3 focussed playbooks which do 1 tier each.</p>
+</div>
+<div class="paragraph">
+<p>You can verify you haven&#8217;t introduced syntax errors by checking with <code>ansible-playbook --syntax-check</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-playbook --syntax-check *.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">playbook: main.yml
+playbook: provision_app_tier.yml
+playbook: provision_database_tier.yml
+playbook: provision_load_balancer_tier.yml
+playbook: teardown-app.yml</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Linters such as <code>yamllint</code>, <code>ansible-lint</code>, and <code>ansible-review</code> are outside the scope of this particular stage
+If you are curious to try then install <code>python3</code> and the use <code>pip3</code> to install <code>ansible-review</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo pip3 install ansible-review yamllint</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Output omitted for brevity and <strong>yes</strong> using <code>sudo</code> for <code>pip3</code> is a bad practice but a useful shortcut for now (use virtualenvs or <code>pip3 install --user</code> and link to <code>/usr/local/bin</code> would be better but a few more steps)</p>
+</div>
+<div class="listingblock">
+<div class="title">Try it on your new playbooks</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">ansible-review provision*.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">WARN: Best practice "Playbooks should not contain logic (vars, tasks, handlers)" not met:
+provision_database_tier.yml:2: [EXTRA0008] tasks should not be required in a play
+WARN: Best practice "Playbooks should not contain logic (vars, tasks, handlers)" not met:
+....</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Lots of <strong>warnings</strong> but no <strong>errors</strong> - lets return to those warnings later.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Wrap your 3 playbooks in a <code>site.yml</code> using <code>import_playbook</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat site.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">- import_playbook: provision_database_tier.yml
+- import_playbook: provision_app_tier.yml
+- import_playbook: provision_load_balancer_tier.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify your new <code>site.yml</code> (if necessary run <code>ansible-playbook teardown.yml</code> first to delete the install)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-playbook site.yml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Success</strong> (hopefully) - now cleanup and move on to the next stage</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_git_digression"><a class="anchor" href="#_a_git_digression"></a>A <code>git</code> Digression</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now we have made some changes, added some files/playbooks, amd <code>main.yml</code> is redundant it would be nice to snapshot our progress in <code>git</code>.
+This allows us to move forward confidently, and yet revert or recover back to  a known good state</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Configure some <code>git</code> global variables</p>
+<div class="paragraph">
+<p>Feel free to use whatever values you want below</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git config --global user.email "tok@example.com"
+git config --global user.name "tok"
+git config -l</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">user.email=tok@example.com                <i class="conum" data-value="1"></i><b>(1)</b>
+user.name=tok                             <i class="conum" data-value="2"></i><b>(2)</b>
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/tonykay/ansible_flask_app_loader_all_in_one.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your changes have been applied</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Your email</p>
+</li>
+<li>
+<p>Your name</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Now cleanup your repo and commit your changes</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git rm main.yml
+git add --all
+git commit -m "Refactored and removed main.yml to site.yml"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[refactor-pass-01 a61fb5c] Refactored and removed main.yml to site.yml
+ 5 files changed, 300 insertions(+), 296 deletions(-)
+ delete mode 100644 main.yml
+ create mode 100644 provision_app_tier.yml
+ create mode 100644 provision_database_tier.yml
+ create mode 100644 provision_load_balancer_tier.yml
+ create mode 100644 site.yml</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can check on your changes and state with <code>git status</code> and view the commit history with <code>git log</code>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="variables"><a class="anchor" href="#variables"></a>Refactoring the Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is, generally, a bad practice to store code and configuration together, and your 3 playbooks are full of variables.
+Variables, or <em>vars</em>, can change frequently and being able to modify these or supply alternatives simply is very powerful.
+In a mature codebase the playbooks, roles, and collections may become predominately <strong>read-only</strong> in day to day use with the var or inputs changing far more frequently.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Break each set of vars out into separate <em>"var files"</em>.</p>
+<div class="paragraph">
+<p>There are a number of places we could put them and many ways we can read them back into our playbooks.
+However in this case the simplest and easiest option is to move them into files in a <code>group_vars</code> directory.
+Each file will take the name of its <code>group</code> postfixed by <code>.yml</code> and Ansible will automatically include it at run time.</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>make the <code>group_vars</code> directory</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">mkdir group_vars</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Remind yourself of your <code>group</code> names</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-inventory --graph</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">@all:
+  |--@internal:
+  |  |--@app_servers:
+  |  |  |--app-01
+  |  |  |--app-02
+  |  |--@database_servers:
+  |  |  |--appdb1
+  |  |--@load_balancers:
+  |  |  |--frontend
+  |--@ungrouped:</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Copy your playbooks into <code>group_vars</code> using the <code>group</code> names above postfixed with <code>.yml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cp provision_database_tier.yml group_vars/database_servers.yml
+cp provision_app_tier.yml group_vars/app_servers.yml
+cp provision_load_balancer_tier.yml group_vars/load_balancers.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Cleanup each new variable file</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Delete <strong>all</strong> non variable lines including <code>vars:</code></p>
+</li>
+<li>
+<p>Fix the indentation, aligning the vars with column 1</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is a quick and simple way to ensure you get all the vars accurately across.
+Basically you are copying the playbooks over, and the stripping everything out other the the vars themselves.
+It is very common practice in ansible to start with a playbook and then refactor into more modular components by copying and cleaning up into a more composed structure.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>vim</code> is extremely good at these types of operations</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">Table 1. <code>vim command mode</code> options</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ndd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete <em>n</em> lines (<code>ex</code> mode is even more powerful)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>n&lt;&lt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allows you to change indentation levels over <em>n</em> multiple lines</p></td>
+</tr>
+</tfoot>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For example your files should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">head group_vars/database_servers.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">postgres_rhel7_repo: "https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+postgres_packages:
+  - postgresql10
+  - postgresql10-server
+  - postgresql10-contrib
+  - postgresql10-libs
+postgres_library: python-psycopg2
+postgres_10_data_dir: /var/lib/pgsql/10/data
+postgres_10_bin_path: /usr/pgsql-10/bin</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Now remove the vars from each of your playbooks</p>
+<div class="paragraph">
+<p>Edit each playbook removing the <code>vars:</code> section completely</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Test your changes remembering to run <code>ansible-playbook teardown.yml</code> first if necessary</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-playbook site.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your, slowly getting better, <code>site.yml</code> should run successfully.
+If not debug, fix, until successful.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+YAML at first appears very fussy about indentation etc but soon this becomes natural.
+Adopt a consistent style as when creating lists for example you have 2 indentation styles to chose from.
+<code>ansible-playbook &lt;playbook-name&gt; --syntax-check</code> us useful and <code>pip3</code> can also install <a href="https://github.com/adrienverge/yamllint"><code>yamllint</code></a>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Finally <code>commit</code> your changes</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git add --all
+git commit -m "Refactored all vars to group_vars"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[refactor-pass-01 9399a27] Refactored all vars to group_vars
+ 6 files changed, 53 insertions(+), 54 deletions(-)
+ create mode 100644 group_vars/app_servers.yml
+ create mode 100644 group_vars/database_servers.yml
+ create mode 100644 group_vars/load_balancers.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Examine your <code>git</code> history with <code>git log</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git log</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">commit 9399a277637e74cc9ccb167daa464d6b813dd552
+Author: tok &lt;tok@example.com&gt;
+Date:   Thu Jul 23 17:58:42 2020 +0000
+
+    Refactored all vars to group_vars
+
+commit a61fb5ce457e88759a8a63cdf4b938c9df73581e
+Author: tok &lt;tok@example.com&gt;
+Date:   Thu Jul 23 17:10:22 2020 +0000
+
+    Refactored and removed main.yml to site.yml
+
+commit 531439bee9f84c1068be761e5c10fa65ad4abb7a
+Author: Tony &lt;tony.g.kay@gmail.com&gt;
+Date:   Tue Jul 21 13:30:19 2020 -0600
+....</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Notice</strong> you also see my own earlier commits in the history prior to your own work</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="templates"><a class="anchor" href="#templates"></a>Clean Up your Templates</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The root directory of your project is a bit cluttered, including several template files.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make a <code>templates</code> sub-directory</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">mkdir templates</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Move all the jinja template files (ending <code>.j2</code>)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">mv *.j2 templates</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>All your playbooks now have an incorrect path</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>grep</code> can be an extremely useful command when working with Ansible repos and projects.
+Since the paths you are going to have to change are all related to the <code>template</code> module we can quickly find them.
+<code>grep -A</code> can be used to show a specified number of lines after the search pattern.
+Try:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">grep -A2 template: provision_*</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">provision_app_tier.yml:      template:
+provision_app_tier.yml-        src: launch_resource_hub.j2
+provision_app_tier.yml-        dest: /usr/local/bin/launch_resource_hub
+--
+provision_app_tier.yml:      template:
+provision_app_tier.yml-        src: flask_service.j2
+provision_app_tier.yml-        dest: /etc/systemd/system/{{ flask_app_name }}.service
+--
+provision_database_tier.yml:      template:
+provision_database_tier.yml-        src: pg_hba.conf.j2
+provision_database_tier.yml-        dest: "{{ postgres_10_data_dir }}/pg_hba.conf"
+--
+provision_load_balancer_tier.yml:      template:
+provision_load_balancer_tier.yml-        src: haproxy.cfg.j2
+provision_load_balancer_tier.yml-        dest: /etc/haproxy/haproxy.cfg</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Fix each of the <code>src:</code> lines above to include the <code>templates</code> sub-directory in the path</p>
+</li>
+<li>
+<p>Validate your work by running <code>ansible-playbook teardown-app.yml</code> and then <code>ansible-playbook site.yml</code></p>
+</li>
+<li>
+<p>Before committing your changes use <code>git status</code> to see the changes. <code>git diff</code> will show the details of your edits</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git status</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo"># On branch refactor-pass-01
+# Changes not staged for commit:
+#   (use "git add/rm &lt;file&gt;..." to update what will be committed)
+#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+#
+#       deleted:    flask_service.j2
+#       deleted:    haproxy.cfg.j2
+#       deleted:    launch_resource_hub.j2
+#       deleted:    pg_hba.conf.j2
+#       modified:   provision_app_tier.yml
+#       modified:   provision_database_tier.yml
+#       modified:   provision_load_balancer_tier.yml
+#
+# Untracked files:
+#   (use "git add &lt;file&gt;..." to include in what will be committed)
+#
+#       templates/
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Save your changes with <code>git add</code> and <code>git commit</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git add --all
+git commit -am "Cleaned up jinja templates to templates directory"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[refactor-pass-01 7e0d63a] Cleaned up jinja templates to templates directory
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename flask_service.j2 =&gt; templates/flask_service.j2 (100%)
+ rename haproxy.cfg.j2 =&gt; templates/haproxy.cfg.j2 (100%)
+ rename launch_resource_hub.j2 =&gt; templates/launch_resource_hub.j2 (100%)
+ rename pg_hba.conf.j2 =&gt; templates/pg_hba.conf.j2 (100%)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Finally <code>merge</code> you changes into your <code>main</code> branch</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git checkout main
+git merge refactor-pass-01</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">Updating 531439b..7e0d63a
+Fast-forward
+ group_vars/app_servers.yml                                 |  26 ++++++++++++
+ group_vars/database_servers.yml                            |  24 +++++++++++
+ group_vars/load_balancers.yml                              |   3 ++
+ main.yml                                                   | 296 ---------------------------------------------------------------------------------------------------------
+ provision_app_tier.yml                                     |  77 +++++++++++++++++++++++++++++++++++
+ provision_database_tier.yml                                |  85 +++++++++++++++++++++++++++++++++++++++
+ provision_load_balancer_tier.yml                           |  81 +++++++++++++++++++++++++++++++++++++
+ site.yml                                                   |   3 ++
+ flask_service.j2 =&gt; templates/flask_service.j2             |   0
+ haproxy.cfg.j2 =&gt; templates/haproxy.cfg.j2                 |   0
+ launch_resource_hub.j2 =&gt; templates/launch_resource_hub.j2 |   0
+ pg_hba.conf.j2 =&gt; templates/pg_hba.conf.j2                 |   0
+ 12 files changed, 299 insertions(+), 296 deletions(-)
+ create mode 100644 group_vars/app_servers.yml
+ create mode 100644 group_vars/database_servers.yml
+ create mode 100644 group_vars/load_balancers.yml
+ delete mode 100644 main.yml
+ create mode 100644 provision_app_tier.yml
+ create mode 100644 provision_database_tier.yml
+ create mode 100644 provision_load_balancer_tier.yml
+ create mode 100644 site.yml
+ rename flask_service.j2 =&gt; templates/flask_service.j2 (100%)
+ rename haproxy.cfg.j2 =&gt; templates/haproxy.cfg.j2 (100%)
+ rename launch_resource_hub.j2 =&gt; templates/launch_resource_hub.j2 (100%)
+ rename pg_hba.conf.j2 =&gt; templates/pg_hba.conf.j2 (100%)</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_solution"><a class="anchor" href="#_solution"></a>Solution</h3>
+<div class="paragraph">
+<p>I&#8217;ve deliberately created a second repo with a solution, to avoid the temptation of just checking out the relevant commit/tag/branch (more on them later).
+Meanwhile it can be found <a href="https://github.com/tonykay/solution_ansible_flask_app_loader_all_in_one">here</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Congratulations, you know have a cleaner codebase that is more modular and easier to maintain.
+However it is still a bit "clunky" and it would be awkward for another team to <em>"borrow"</em> say your Postgres playbook.</p>
+</div>
+<div class="paragraph">
+<p>The next step will be to move your playbooks, and <em>some</em> of the vars into reusable roles.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="description" content="This website will show generate lab environments">
+        <meta name="keywords" content="terminal, web, lab">
+        <meta name="keywords" content="terminal, web, lab">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css'>
+        <title>Classroom</title>
+        <style>
+        * {
+        box-sizing: border-box;
+        }
+
+        .drag-container {
+        display: flex;
+        min-height: 100px;
+        }
+
+        [class^="col"] {
+        padding: 0px 24px;
+        }
+
+                     .col-doc {width: 40%;}
+                     .col-terminal {width: 60%;}
+             
+        .dragbar {
+        padding: 6px;
+        cursor: col-resize;
+        background-color: silver;
+        }
+        </style>
+    </head>  
+    <body>
+        <header>
+        <div class="header">
+        </div>
+        </header>
+        <main>
+        <hr/>
+        <div class="drag-container" id="drag-container">
+            <script>
+              var init = false;
+              </script>
+                        <span class="col-doc" id="col-doc" >
+                <iframe id="doc"  src="./template-tutorial/01-ansible-refactoring-overview.html" width="100%" style="border:none;"></iframe>
+                <script>
+                height = "80%".replace("%","")
+                height = screen.height / 100 * height;
+                document.getElementById("doc").height= height;
+                </script>
+            </span>
+            <script>
+              if (!init) {
+                init = true
+                document.getElementById("drag-container").innerHTML += "<div id='dragbar' class='dragbar' style='padding: 6px;cursor: col-resize;background-color: silver;'></div>"
+              }
+             </script>   
+                        <span class="col-terminal" id="col-terminal" >
+                <iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+                <script>
+                height = "80%".replace("%","")
+                height = screen.height / 100 * height;
+                document.getElementById("terminal").height= height;
+                </script>
+            </span>
+            <script>
+              if (!init) {
+                init = true
+                document.getElementById("drag-container").innerHTML += "<div id='dragbar' class='dragbar' style='padding: 6px;cursor: col-resize;background-color: silver;'></div>"
+              }
+             </script>   
+                    </div>
+        <script>
+        
+       var left = document.getElementById('col-doc');
+                 var right = document.getElementById('col-terminal');
+                 var bar = document.getElementById('dragbar');
+
+          const drag = (e) => {
+            document.selection ? document.selection.empty() : window.getSelection().removeAllRanges();
+            left.style.width = (e.pageX - bar.offsetWidth / 2) + 'px';
+          }
+
+          bar.addEventListener('mousedown', () => {
+            document.addEventListener('mousemove', drag);
+          });
+
+          bar.addEventListener('mouseup', () => {
+            document.removeEventListener('mousemove', drag);
+          });
+
+        </script>
+ 
+        </main>
+        <footer>
+        </footer>
+    </body>
+</html>

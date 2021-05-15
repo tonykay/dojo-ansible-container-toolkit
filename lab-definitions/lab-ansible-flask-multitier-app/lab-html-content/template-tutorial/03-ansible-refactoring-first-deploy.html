@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Ansible Refactoring (Dev Mode)</title>
+    <link rel="canonical" href="http://localhost:3000/rhs-build-course/index.html/template-tutorial/03-ansible-refactoring-first-deploy.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="http://localhost:3000/rhs-build-course/index.html">Ansible Refactoring (Dev Mode)</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="template-tutorial" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Refactoring</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-ansible-refactoring-overview.html">1. Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#infrastructure">The Infrastructure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#application">The Application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html">2. Setting up your Control Node</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#environment">Your Environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#connect">Connect to your Control Node</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#explore">Explore your Control Node</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html">3. First Deploy</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#deploy">Deploy</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html">4. First Refactor</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#approach">Approach</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#variables">Refactor the Variables</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#templates">Cleanup the Templates</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html">5. Moving to Roles Part 1</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#postgres2role">Convert Postgres Play to Role</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#solution">Solution</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Refactoring</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Refactoring</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Refactoring</a></li>
+    <li><a href="03-ansible-refactoring-first-deploy.html">3. First Deploy</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/tok/Dropbox/MBP15/repos/classroom-multi/documentation/modules/ROOT/pages/03-ansible-refactoring-first-deploy.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_first_deploy"><a class="anchor" href="#_first_deploy"></a>First Deploy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now your environment is setup and customized it is time to clone, examine, and run your project repository or <em>repo</em>.</p>
+</div>
+<div class="sect2">
+<h3 id="_simple_multi_tier_application_overview"><a class="anchor" href="#_simple_multi_tier_application_overview"></a>Simple Multi-Tier Application Overview</h3>
+<div class="paragraph">
+<p>The repo contains a simple, monolithic, playbook <code>main.yml</code> that deploys a multi-tier application serving both a web site and it&#8217;s associated API.</p>
+</div>
+<div class="paragraph">
+<p>The Application comprises 3 main components, or tiers, which can be deployed onto the lab infrastructure.
+There is also a control node to work from.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 16.6666%;">
+<col style="width: 27.778%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Server</th>
+<th class="tableblock halign-left valign-top">Role</th>
+<th class="tableblock halign-left valign-top">Ports (TCP)</th>
+<th class="tableblock halign-left valign-top">Software</th>
+<th class="tableblock halign-left valign-top">Ansible Group</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>control</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NA</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible Control Node</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>frontend1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load Balancer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 80, 443</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HAProxy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>load_balancers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load balances across App Tier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>app1</code>, <code>app2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application Servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 8080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python Flask</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>app_servers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Webserver and API (Python/Flask)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appdb1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 5432</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Postgresql</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>database_servers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Back end database for Flask application</p></td>
+</tr>
+</tbody>
+</table>
+<div class="imageblock thumb center">
+<div class="content">
+<img src="_images/ntier-app-topology.png" alt="ntier app topology" width="100%">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deploy"><a class="anchor" href="#deploy"></a>First Deploy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the first deploy we will just deploy the repo, or project, <em>"as is"</em> without making any changes.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In Ansible plays, modules, roles, etc., should ideally do one thing well rather than attempt to be too <em>broad</em>.
+In our lab repository the primary playbook <code>main.yml</code> is comprised of several, functional plays but it&#8217;s monolithic nature makes it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inflexible - e.g. it is difficult to re-use the database/postgres play on another project</p>
+</li>
+<li>
+<p>Poor "separation of concerns" - DevOps teams all working with a single file dealing with different technology areas</p>
+</li>
+<li>
+<p>Mixes configuration and code - variables, which may need frequent updating, are embedded in the plays themselves</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Explore the project</p>
+<div class="paragraph">
+<p>This project, currently, has a very flat structure and can be explored simply with the <code>ls</code> command.
+For much larger projects <code>tree</code> is a useful command, particularly with the <code>-L</code> command that can be used to limit the directory depth of output. We will use <code>tree</code> later.</p>
+</div>
+<div class="paragraph">
+<p>Notice the <code>ansible.cfg</code> file.
+Whilst executing <code>ansible</code> commands from this directory this takes priority over the default <code>/etc/ansible/cfg</code>. You can confirm this with <code>ansible --version</code></p>
+</div>
+</li>
+<li>
+<p>Examine your <code>ansible.cfg</code></p>
+<div class="paragraph">
+<p>The <code>ansible --version</code> command can identify the location of the <a href="https://docs.ansible.com/ansible/latest/reference_appendices/config.html" target="_blank" rel="noopener"><code>ansible.cfg</code></a> in use.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat ansible.cfg</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[defaults]
+inventory                   = hosts
+retry_files_enabled         = false
+
+stdout_callback             = default
+bin_ansible_callbacks       = true
+callback_whitelist          = yaml, timer, profile_tasks
+
+[ssh_connection]
+# ssh_args                    = -F ./ssh.cfg</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>View the <code>main.yml</code></p>
+<div class="paragraph">
+<p>Take your time and page through the <code>main.yml</code> noting the multiple plays and their purpose.
+The application is actually deployed <em>backwards</em>, which is not uncommon, as each layer requires the services of the layer behind.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Deploy Database Tier (Postgres)</p>
+</li>
+<li>
+<p>Deploy Application Tier (Flask)</p>
+</li>
+<li>
+<p>Deploy Load Balancer Tier (HAProxy)</p>
+</li>
+<li>
+<p>Smoke Test Application end to end</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">less main.yml</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_application"><a class="anchor" href="#_deploy_the_application"></a>Deploy the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You are now ready to run the playbook and check if it works as expected.
+Watch the <code>ansible-playbook</code> command&#8217;s output to follow, and understand, its progress.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the <code>main.yml</code> playbook</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-playbook main.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">...
+
+TASK [Check webserver for correct response] ************************************************************
+Thursday 07 January 2021  16:01:00 +0000 (0:00:00.827)       0:01:45.626 ******
+ok: [app-02]
+ok: [app-01]
+
+PLAY RECAP *********************************************************************************************
+app-01                     : ok=13   changed=10   unreachable=0    failed=0    skipped=0    rescued=0
+ ignored=0
+app-02                     : ok=11   changed=9    unreachable=0    failed=0    skipped=0    rescued=0
+ ignored=0
+appdb1                     : ok=10   changed=8    unreachable=0    failed=0    skipped=0    rescued=0
+ ignored=0
+frontend                   : ok=4    changed=4    unreachable=0    failed=0    skipped=0    rescued=0
+ ignored=0
+
+Thursday 07 January 2021  16:01:01 +0000 (0:00:00.736)       0:01:46.363 ******
+===============================================================================
+Install flask packages ------------------------------------------------------------------------- 35.54s
+Install Postgres packages ---------------------------------------------------------------------- 22.70s
+Create virtualenv venv-resource_hub for Flask -------------------------------------------------- 13.53s
+Setup pre-requisite pip3 packages --------------------------------------------------------------- 8.16s
+Install load balancer packages ------------------------------------------------------------------ 3.54s
+Setup Postgres database(s) ---------------------------------------------------------------------- 2.05s
+Run Postgres initdb to initialize if postgres not initialized ----------------------------------- 1.62s
+
+
+...</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run it again!</p>
+<div class="paragraph">
+<p>It is good to validate that the playbook is idempotent and can safely be run multiple times without breaking the installation</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_your_application_is_deployed_correctly"><a class="anchor" href="#_test_your_application_is_deployed_correctly"></a>Test your Application is Deployed Correctly</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Assuming you got a successful playbook run you should now validate the deployment.
+There are a number of tests you can potentially carry out as each server is running at least 1 service:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>frontend</code>: http on port 80</p>
+</li>
+<li>
+<p><code>app-01</code> and <code>app-02</code>: a website/API endpoint on port 8080</p>
+</li>
+<li>
+<p>appdb1: Postgres on port 5432</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The simplest tests are to call the API endpoint with <code>curl</code> and to browse, from your local machine to the website.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>curl</code> the HAProxy Load Balancer i`frontend` (the <code>-s</code> option for <code>silent</code> stops curl from outputting stats to <strong>STDERR</strong>)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh"> ---
+curl -s frontend/api/resources | jq
+----</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">  {
+    "author": "That Jeff Geerlinguy",
+    "description": "Classic introduction to Ansible",
+    "id": 1,
+    "name": "Ansible for DevOps",
+    "source": "Book",
+    "url": "https://leanpub.com/ansible-for-devops"
+  },
+  {
+    "author": "James Freeman, Jesse Keating",
+    "description": "Explores how Ansible works",
+    "id": 2,
+    "name": "Mastering Ansible 3rd Edition",
+    "source": "Book",
+    "url": "https://www.packtpub.com/virtualization-and-cloud/mastering-ansible-third-edition`"
+  },
+
+... &lt;TRUNCATED OUTPUT&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Your <code>curl</code> command called the <strong>HAProxy</strong> Load balancer which in turned called one of the App Servers.
+The <strong>Flask</strong> application in turn connected to the <strong>Postgreql</strong> database running on <code>appdb1</code>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>You application has been exposed on your local machine, on Port 8080, and you can <a href="http://localhost:8080" target="_blank" rel="noopener">browse to it</a>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock thumb center">
+<div class="content">
+<img src="_images/ntier-app-browser.png" alt="ntier app browser" width="100%">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Test the <code>teardown.yml</code> playbook and remove the application.</p>
+<div class="paragraph">
+<p>Again it is worth watching the output closely and seeing if there are any expected, or unexpected, messages or changes.
+As before feel free to run it twice, note how the output changes as the idempotent teardown has nothing to do on the 2nd pass.
+In fact you should expect to see <code>changed=0</code> in the output of the second pass for all hosts.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h3>
+<div class="paragraph">
+<p>Now your environment is fully configured and ready to run.
+Move onto <a href="03-ansible-refactoring-first-deploy.html">Part 2: First Deploy</a></p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

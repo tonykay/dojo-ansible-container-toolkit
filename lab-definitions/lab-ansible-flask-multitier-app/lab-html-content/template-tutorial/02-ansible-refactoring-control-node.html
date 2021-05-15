@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Ansible Refactoring (Dev Mode)</title>
+    <link rel="canonical" href="http://localhost:3000/rhs-build-course/index.html/template-tutorial/02-ansible-refactoring-control-node.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="http://localhost:3000/rhs-build-course/index.html">Ansible Refactoring (Dev Mode)</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="template-tutorial" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Refactoring</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-ansible-refactoring-overview.html">1. Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#infrastructure">The Infrastructure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#application">The Application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html">2. Setting up your Control Node</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#environment">Your Environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#connect">Connect to your Control Node</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#explore">Explore your Control Node</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html">3. First Deploy</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html#deploy">Deploy</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html">4. First Refactor</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#approach">Approach</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#variables">Refactor the Variables</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#templates">Cleanup the Templates</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html">5. Moving to Roles Part 1</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#postgres2role">Convert Postgres Play to Role</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html#solution">Solution</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Refactoring</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Refactoring</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Refactoring</a></li>
+    <li><a href="02-ansible-refactoring-control-node.html">2. Setting up your Control Node</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/tok/Dropbox/MBP15/repos/classroom-multi/documentation/modules/ROOT/pages/02-ansible-refactoring-control-node.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_getting_started"><a class="anchor" href="#_getting_started"></a>Getting Started</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="environment"><a class="anchor" href="#environment"></a>Your Environment</h3>
+<div class="paragraph">
+<p>The lab environment consists of 4 servers and a control node.</p>
+</div>
+<div class="imageblock thumb center">
+<div class="content">
+<img src="_images/ntier-topology.png" alt="ntier topology" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 16.6666%;">
+<col style="width: 27.778%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Server</th>
+<th class="tableblock halign-left valign-top">Role</th>
+<th class="tableblock halign-left valign-top">Ports (TCP)</th>
+<th class="tableblock halign-left valign-top">Software</th>
+<th class="tableblock halign-left valign-top">Ansible Group</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>control</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NA</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible Control Node</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>frontend</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load Balancer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 80, 443</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HAProxy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>load_balancers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load balances across App Tier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>app-01</code>, <code>app-02</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application Servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 8080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python Flask</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>app_servers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Webserver and API (Python/Flask)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appdb1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22, 5432</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Postgresql</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>database_servers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Back end database for Flask application</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only <code>control</code> and <code>frontend</code> are exposed to the Internet
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All nodes, today, run Red Hat Enterprise Linux 7 or 8.
+At this point, the nodes do not have their respective application payloads installed or configured but are setup for <code>ssh</code> access.</p>
+</div>
+<div class="paragraph">
+<p>You will work, and run, Ansible from the Ansible Control Node <code>control.example.com</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="connect"><a class="anchor" href="#connect"></a>Connect to your control node</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>ssh</code> directly to your <code>control</code> node. <code>ssh</code> is pre-configured via your <code>~/.ssh</code> directory</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ssh control.example.com</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="explore"><a class="anchor" href="#explore"></a>Explore your environment</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check your basic toolchain is in place. At a minimum you will need <code>ansible</code> and <code>git</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">type git ansible</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">git is /bin/git
+ansible is /bin/ansible</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Install any preferred additional tools, utilities, and configuration you like to have</p>
+<div class="paragraph">
+<p>If you expect to spend any significant amount of time working directly on a host it is recommended to spend a few moments customizing your working environment. Possible steps can include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Customize your <code>~/.bashrc</code> or equivalent</p>
+</li>
+<li>
+<p>Customize your <code>~/.vimrc</code> or equivalent</p>
+</li>
+<li>
+<p>Installs useful and/or favorite tools e.g.:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>vim/emacs/nano</p>
+</li>
+<li>
+<p>curl</p>
+</li>
+<li>
+<p>telnet # useful for debugging services</p>
+</li>
+<li>
+<p>jq     # if you expect to be working with JSON etc</p>
+</li>
+<li>
+<p>tree</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Other environment optimizations</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Whilst typically not widely used here is a use-case for the <code>ansible-pull</code> command that allows you to pull in an external playbook and execute it.
+For example create a playbook in a git repo that customizes a typical Linux environment, installs favorite/useful packages and customizes key files such as <code>~/.bashrc</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now your toolchain is in place and optimized move on to exploring your <code>ansible</code> setup and lab.</p>
+</div>
+<div class="sect2">
+<h3 id="_installing_your_ansible_git_repo"><a class="anchor" href="#_installing_your_ansible_git_repo"></a>Installing your Ansible <code>git</code> repo</h3>
+<div class="paragraph">
+<p>Your starting point is a fully functional but somewhat monolithic solution available via <code>git</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clone the deployer git repo</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git clone https://github.com/tonykay/ansible_flask_app_loader_all_in_one.git</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">Cloning into 'ansible_flask_app_loader_all_in_one'...
+remote: Enumerating objects: 41, done.
+remote: Counting objects: 100% (41/41), done.
+remote: Compressing objects: 100% (25/25), done.
+remote: Total 41 (delta 16), reused 40 (delta 15), pack-reused 0
+Unpacking objects: 100% (41/41), done.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Change directory into you project</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cd ansible_flask_app_loader_all_in_one</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_check_your_ansible_configuration_and_setup"><a class="anchor" href="#_check_your_ansible_configuration_and_setup"></a>Check your <code>ansible</code> configuration and Setup</h3>
+<div class="paragraph">
+<p>Typical tasks working with a new, or unfamiliar, control node and repo:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Check ansible version</p>
+</li>
+<li>
+<p>Identify, and examine, your <code>ansible.cfg</code></p>
+</li>
+<li>
+<p>Explore your inventory</p>
+</li>
+<li>
+<p>Verify your <code>ssh</code> setup and configuration</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check <code>ansible</code> version</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible --version</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">ansible 2.9.15
+  config file = /home/devops/ansible_flask_app_loader_all_in_one/ansible.cfg
+  configured module search path = ['/home/devops/.ansible/plugins/modules', '/usr/share/ansible/plugins/
+modules']
+  ansible python module location = /usr/lib/python3.6/site-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.6.8 (default, Aug 18 2020, 08:33:21) [GCC 8.3.1 20191121 (Red Hat 8.3.1-5)]</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Explore your Ansible <strong>inventory</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cat hosts</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[load_balancers]
+frontend
+
+[app_servers]
+app-01
+app-02
+
+[database_servers]
+appdb1
+
+[ntierapp:children]
+load_balancers
+app_servers
+database_servers</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>ansible-inventory</code> is a useful utility for exploring, and visualizing, your inventory.</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">Table 1. <code>ansible-inventory</code> options</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--graph</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create an inventory graph, also <code>--graph &lt;GROUP&gt;</code> option</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds vars to <code>--graph</code> output <strong>only</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specific host</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-i</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alternative inventory source</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-inventory --graph --vars</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">@all:
+  |--@internal:
+  |  |--@app_servers:
+  |  |  |--app-01
+  |  |  |--app-02
+  |  |--@database_servers:
+  |  |  |--appdb1
+  |  |--@load_balancers:
+  |  |  |--frontend
+  |--@ungrouped:</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also list your inventory groups hosts with the <code>ansible</code> command <code>ansible &lt;GROUP_NAME&gt; --list-hosts</code> e.g. <code>ansible all --list-hosts</code>
+The <code>-i</code> option allows you to specify an alternative inventory including a directory or dynamic inventory script or plugin.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Finally verify basic <code>ssh</code> connectivity to show that your <code>ssh</code> configuration is valid and all necessary users, and keys are setup.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible all -m ping</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">Thursday 07 January 2021  15:43:15 +0000 (0:00:00.050)       0:00:00.050 ******
+appdb1 | SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+frontend | SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+app-02 | SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+app-01 | SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+Thursday 07 January 2021  15:43:16 +0000 (0:00:00.712)       0:00:00.762 ******
+===============================================================================
+ping ---------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.71s
+Playbook run took 0 days, 0 hours, 0 minutes, 0 seconds</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The different values of <code>"discovered_interpreter_python":</code> in the output suggest that not all the nodes are identically configured or perhaps the same version of the Operating System.
+Red Hat Enterprise Linux 7 and 8 configure <code>python</code> differently and as <code>ansible</code> is written in <code>python</code> is is good to build a familiarity with the basics of how <code>python</code> works.
+If you are curious as to what Operating Systems are in use try the following <code>ansible</code> <strong>Ad-Hoc</strong> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible all -a "cat /etc/redhat-release"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">hursday 07 January 2021  15:47:43 +0000 (0:00:00.038)       0:00:00.038 ******
+appdb1 | CHANGED | rc=0 &gt;&gt;
+Red Hat Enterprise Linux Server release 7.7 (Maipo)
+app-01 | CHANGED | rc=0 &gt;&gt;
+Red Hat Enterprise Linux release 8.2 (Ootpa)
+app-02 | CHANGED | rc=0 &gt;&gt;
+Red Hat Enterprise Linux release 8.2 (Ootpa)
+frontend | CHANGED | rc=0 &gt;&gt;
+Red Hat Enterprise Linux release 8.2 (Ootpa)
+Thursday 07 January 2021  15:47:44 +0000 (0:00:00.679)       0:00:00.717 ******
+===============================================================================
+command ------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.68s
+Playbook run took 0 days, 0 hours, 0 minutes, 0 seconds</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h3>
+<div class="paragraph">
+<p>Now your environment is fully configured and ready to run.
+Move onto <a href="03-ansible-refactoring-first-deploy.html">Part 2: First Deploy</a></p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Ansible Refactoring (Dev Mode)</title>
+    <link rel="canonical" href="http://localhost:3000/rhs-build-course/index.html/template-tutorial/05-ansible-refactoring-roles-part1.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="http://localhost:3000/rhs-build-course/index.html">Ansible Refactoring (Dev Mode)</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="template-tutorial" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Refactoring</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-ansible-refactoring-overview.html">1. Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#infrastructure">The Infrastructure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-ansible-refactoring-overview.html#application">The Application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html">2. Setting up your Control Node</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#environment">Your Environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#connect">Connect to your Control Node</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-ansible-refactoring-control-node.html#explore">Explore your Control Node</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html">3. First Deploy</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-ansible-refactoring-first-deploy.html#deploy">Deploy</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html">4. First Refactor</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#approach">Approach</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#variables">Refactor the Variables</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-ansible-refactoring-first-refactor.html#templates">Cleanup the Templates</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-ansible-refactoring-roles-part1.html">5. Moving to Roles Part 1</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#postgres2role">Convert Postgres Play to Role</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#solution">Solution</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Refactoring</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Refactoring</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Refactoring</a></li>
+    <li><a href="05-ansible-refactoring-roles-part1.html">5. Moving to Roles Part 1</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///Users/tok/Dropbox/MBP15/repos/classroom-multi/documentation/modules/ROOT/pages/05-ansible-refactoring-roles-part1.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_roles_refactor"><a class="anchor" href="#_roles_refactor"></a>Roles Refactor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In our second pass through the project we will take the now more modular solution a step further and break it into roles.
+In this case we will basically map each of the 3 playbooks from Part 3 into 1 role each</p>
+</div>
+<div class="olist arabic">
+<div class="title">Process</div>
+<ol class="arabic">
+<li>
+<p>Create a new branch refactor-pass-02-roles</p>
+</li>
+<li>
+<p>Create a roles sub-directory in the repo</p>
+</li>
+<li>
+<p>Create each role</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Copy the tasks from your playbook into the roles <code>tasks/main.yml</code></p>
+</li>
+<li>
+<p>Consider moving some/all vars into the roles <code>defaults/main.yml</code> or <code>vars/main.yml</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="postgres2role"><a class="anchor" href="#postgres2role"></a>Turning the Postgres Play into a Role</h3>
+<div class="paragraph">
+<p>We will start here and document the steps for our first role. The remainimg 2 roles for <code>flask</code> and <code>HAProxy</code> will basically repeat the same pattern.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new branch <code>refactor-pass-02-roles</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git checkout -b refactor-pass-02-roles</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">Switched to a new branch 'refactor-pass-02-roles'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Make a roles sub-directory</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">mkdir roles</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use <code>ansible-galaxy</code> to create the <em>skeleton</em> for the <code>postgres</code> role</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-galaxy init roles/postgres</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">- Role roles/postgres was created successfully</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>tree</code> command, not always installed, is useful to visualize directory structures.
+Try this, <code>sudo yum install tree -y</code> then <code>tree roles</code> to see your role:</p>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">roles
+└── postgres
+    ├── defaults
+    │   └── main.yml
+    ├── files
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── README.md
+    ├── tasks
+    │   └── main.yml
+    ├── templates
+    ├── tests
+    │   ├── inventory
+    │   └── test.yml
+    └── vars
+        └── main.yml</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Start by creating your roles <code>tasks/main.yml</code></p>
+<div class="paragraph">
+<p>The easiest starting place is to copy your provision_database_tier.yml into the roles <code>tasks/main.yml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cp provision_database_tier.yml roles/postgres/tasks/main.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now edit and fix the <code>tasks/main.yml</code></p>
+<div class="paragraph">
+<p>Delete everything except the tasks themselves, no need for to keep the <code>tasks:</code> directive and fix the indentation by moving everything left (<code>vim</code> is extremely good for this with commands like <code>&lt;&lt;</code> and <em>n</em>`&lt;&lt;` where <em>n</em> is the count operator. eg <code>5&lt;&lt;</code> outdents 5 lines)</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Don&#8217;t forget to delete the <code>handler</code> section at the bottom of the play.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Your top 10 lines should now look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">head roles/postgres/tasks/main.yml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">---
+- name: Install Postgres packages
+  package:
+    name: "{{ __package }}"
+    state: present
+  loop:
+    - "{{ postgres_rhel7_repo }}"
+    - "{{ postgres_packages }}"
+    - "{{ postgres_library }}"
+  loop_control:</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now repeat a similar process to steps 4 and 5 above except this time with the roles <code>handlers/main.yml</code></p>
+<div class="paragraph">
+<p>Once you have finished your <code>roles/postgres/handlers.yml</code> should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">---
+- name: restart_postgres
+  service:
+    name: "{{ postgres_service }}"
+    state: restarted</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Roles have in-built support for templates and your postgres <strong>playbook</strong> referenced <code>templates/pg_hba.conf.j2</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Move your <code>templates/pg_hba.conf.j2</code> to <code>roles/postgres/templates/</code></p>
+</li>
+<li>
+<p>Update your <code>roles/postgres/tasks/main.yml</code> to <strong>remove</strong> the path to the <code>pg_hba.conf.j2</code> template as the role knows <em>"where to look"</em></p>
+<div class="paragraph">
+<p>Your roles <code>template</code> task in <code>roles/postgres/tasks/main.yml</code> should now look like this</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">- name: Setup Postgres for remote password auth
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{ postgres_10_data_dir }}/pg_hba.conf"
+  notify: restart_postgres</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Update your <code>provision_database_tier.yml</code> playbook to use the role <code>postgres</code> and delete the old <code>tasks</code> and <code>handlers</code> code</p>
+<div class="paragraph">
+<p>Your <code>provision_database_tier.yml</code> should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">---
+- name: Deploy, configure, and populate Postgres 10
+  hosts: database_servers
+  become: true
+  gather_facts: false
+  tags:
+    - database_servers
+
+  roles:
+
+    - postgres</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Finally test your new role by running the <code>provision_database_tier.yml</code> either directly or via <code>site.yml</code></p>
+<div class="paragraph">
+<p>You mean want to delete your application first via <code>ansible-playbook teardown-app.yml</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Success</strong> (hopefully)</p>
+</div>
+<div class="paragraph">
+<p>If not debug your issues until you can successfully deploy and configure Postgres by your role.</p>
+</div>
+</li>
+<li>
+<p>Commit your changes</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git add roles
+git commit -am "Moved postgres playbook to use new postgres role"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push your changes to your repo</p>
+<div class="paragraph">
+<p>If you have set up your own fork <code>git push</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>git</code> may ask you to perform some adminstrative commands and if it is your first push on this branch <code>git push --set-upstream origin refactor-pass-02-roles</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeat_the_above_process_for_your_remaining_playbooks"><a class="anchor" href="#_repeat_the_above_process_for_your_remaining_playbooks"></a>Repeat the above Process for your remaining playbooks</h3>
+<div class="paragraph">
+<p>Once you have converted both <code>provision_app_tier.yml</code> and <code>provision_load_balancer_tier.yml</code> to roles based playbooks re-run the whole deploy end to end</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ansible-playbook teardown-app.yml
+ansible-playbook site.yml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="solution"><a class="anchor" href="#solution"></a>Solution</h3>
+<div class="paragraph">
+<p>One possible solution can be seen here in the solution <code>refactor-pass-02-roles</code> branch, either:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Browse to the <a href="https://github.com/tonykay/solution_ansible_flask_app_loader_all_in_one/tree/refactor-pass-02-roles"><code>refactor-pass-02-roles</code> branch</a></p>
+</li>
+<li>
+<p>Download the solution and checkout the <code>refactor-pass-02-roles</code> branch</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git clone https://github.com/tonykay/solution_ansible_flask_app_loader_all_in_one
+cd solution_ansible_flask_app_loader_all_in_on
+git checkout refactor-pass-02-roles</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unfortunately your roles, whilst working, are not complete.
+At this point they cannot be used <em>standalone</em> as they lack the necessary variables which are all being acquired through your <code>group_vars</code>.
+In the next lab we will look at what variables belong inside the roles, and where, and what variables should remain external.
+Then we will also clean up your roles, removing redundant files etc.</p>
+</div>
+<div class="paragraph">
+<p>In Part 5 we will continue to work with <code>roles</code> and enhance them to be re-usable across multiple projects with <em>sensible</em> default behavior <em>"out of the box"</em>.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

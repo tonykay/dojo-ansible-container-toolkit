@@ -6,26 +6,24 @@ networks:
 
 services:
 
-  terminal:
-    container_name: terminal
-    hostname: terminal
+  lab-terminal:
+    container_name: lab-terminal
+    hostname: lab-terminal
     image: service-rhel-8-terminal-base 
     privileged: true
     ports:
       - "2223:22"           # Direct ssh access localhost 2222 devops/vagrant key
       - "10080:8888"        # Browser based terminal session
-#    volumes:
-#      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
 
-  classroom-httpd:
+  lab-httpd:
     image: registry.redhat.io/rhel8/httpd-24
-    container_name: classroom-httpd
-    hostname: classroom-httpd
-      #    volumes:
-      # - "../content:/var/www/html:z,ro"
+    container_name: lab-httpd
+    hostname: lab-httpd
+    volumes:
+      - "./lab-html-content:/var/www/html:z,ro"
     privileged: true
     ports:
-      - "80:80"
+      - "8888:8080"
 
   control:
     image: quay.io/tonykay/vmlet-rhel-8-ansible-control
@@ -62,7 +60,5 @@ services:
     container_name: appdb1
     hostname: appdb1
     privileged: true
-#    volumes:
-#      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
 
 ...
