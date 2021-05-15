@@ -1,0 +1,67 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  terminal:
+    container_name: terminal
+    hostname: terminal
+    image: service-rhel-8-terminal-base 
+    privileged: true
+    ports:
+      - "10080:8080"
+#    volumes:
+#      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+
+  classroom-httpd:
+    container_name: classroom-httpd
+    hostname: classroom-httpd
+    image: quay.io/tonykay/classroom-rhel-8-httpd
+    volumes:
+      - "../content:/var/www/html:z,ro"
+    privileged: true
+    ports:
+      - "80:8080"
+
+  control:
+    container_name: control
+    hostname: control
+    image: vmlet-rhel-8-ansible-control
+    ports:
+      - "2222:22"
+    privileged: true
+      #volumes:
+      # - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+    
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    image: vmlet-rhel-8-base
+    ports:
+      - "8080:80"
+    privileged: true
+
+  app-01:
+    container_name: app-01
+    hostname: app-01
+    image: vmlet-rhel-8-base
+    privileged: true
+
+  app-02:
+    container_name: app-02
+    hostname: app-02
+    image: vmlet-rhel-8-base
+    privileged: true
+
+  appdb1:
+    container_name: appdb1
+    hostname: appdb1
+    image: vmlet-rhel-8-base
+    privileged: true
+    volumes:
+      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+
+...

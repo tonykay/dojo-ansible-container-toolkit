@@ -1,0 +1,72 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  control:
+    container_name: control
+    hostname: control
+    image: docker.io/tonykay/vmlet-rhel-8-ansible
+    image: docker.io/tonykay/vmlet-rhel-8-ansible
+    ports:
+      - "22"
+    privileged: true
+    volumes:
+      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+    
+  frontend:
+    container_name: frontend
+    hostname: frontend
+      # image: docker.io/tonykay/vmlet-rhel-8:8.2
+    image: vmlet-rhel-8
+    ports:
+      - "22"
+      - "8080:80"
+    privileged: true
+
+  app-01:
+    container_name: app-01
+    hostname: app-01
+    image: docker.io/tonykay/vmlet-rhel-8:8.2
+    ports:
+      - "22"
+    privileged: true
+
+  app-02:
+    container_name: app-02
+    hostname: app-02
+    image: docker.io/tonykay/vmlet-rhel-8:8.2
+    ports:
+      - "22"
+    privileged: true
+
+  appdb1:
+    container_name: appdb1
+    hostname: appdb1
+    image: docker.io/tonykay/vmlet-rhel-7-target
+    ports:
+      - "22"
+    privileged: true
+
+  terminal:
+    container_name: terminal
+    hostname: terminal
+    image: quay.io/openshifthomeroom/workshop-terminal:latest
+    ports:
+      - "10080:10080"
+    volumes:
+      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+
+  classroom-httpd:
+    container_name: classroom-httpd
+    hostname: classroom-httpd
+    image: docker.io/httpd          # Offcial apache image
+    volumes:
+      - "../bind_mounts/content:/usr/local/apache2/htdocs:z,ro"
+    privileged: true
+    ports:
+      - "80:80"
+...

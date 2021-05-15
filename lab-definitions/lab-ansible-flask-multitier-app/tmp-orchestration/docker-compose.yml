@@ -1,0 +1,27 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  terminal:
+    container_name: terminal
+    hostname: terminal
+    image: quay.io/openshifthomeroom/workshop-terminal:latest
+    ports:
+      - "443:10080"
+    volumes:
+      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+
+  classroom-httpd:
+    container_name: classroom-httpd
+    hostname: classroom-httpd
+    image: quay.io/tonykay/classroom-rhel-8-httpd
+    volumes:
+      - "../content:/var/www/html:z,ro"
+    privileged: true
+    ports:
+      - "80:8080"
+...
