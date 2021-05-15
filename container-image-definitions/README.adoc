@@ -71,6 +71,6 @@ vmlet-rhel-8-base
 └── ssh_config_dir_resources
     ├── authorized_keys
     ├── config
-    └── vagrant.pem
+    └── vagrant
 
 1 directory, 9 files

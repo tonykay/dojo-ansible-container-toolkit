@@ -1,6 +1,6 @@
 Host *
   User devops
-  IdentityFile ~/.ssh/vagrant.pem
+  IdentityFile ~/.ssh/vagrant
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   ControlMaster auto
