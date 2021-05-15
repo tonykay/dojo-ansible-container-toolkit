@@ -1,0 +1,10 @@
+== Shared Assets for projects
+
+Holding directory for any common shared assets e.g. the private `vagrant` `ssh` key.
+
+[NOTE]
+====
+
+`vagrant` is a well know "private" key used extensively in Hashicorp Vagrant boxes etc.
+
+====
