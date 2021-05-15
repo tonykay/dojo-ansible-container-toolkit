@@ -1,0 +1,131 @@
+@import "compass";
+$backgroundColor: #E0E0E0;
+$textColor: #DEF;
+
+$fontFamily: "Open Sans", "Helvetica Neue", Tahoma, sans-serif;
+$fontFamilyAlt: "Open Sans Condensed", "Lato", "Segoe UI Light", Arial;
+
+* {
+  @include box-sizing(border-box);  
+	-webkit-font-smoothing: antialiased;
+}
+
+html {
+	color: $textColor;
+	font-size: 16px;
+	font-family: $fontFamily;
+}
+
+body {
+	background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/Blur-4.jpg');
+  @include background-size(cover);
+  background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment:fixed;
+	
+	position: absolute;
+	left: 0;right: 0;
+	top: 0; bottom: 0;
+	padding: 0;
+	margin: 0;
+}
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}        
+      
+$contentMargin: 4%;
+.content {
+	position: absolute;
+	left: $contentMargin;
+	right: $contentMargin;
+	top: $contentMargin; 
+	bottom: $contentMargin;	
+	
+	background-color: rgba(White, 0.4);
+	@include border-radius(10px);
+	@include box-shadow(0 0 10px rgba(Black, 0.8));
+
+	@include display-flex();
+	@include flex-direction(row);
+	
+	overflow: hidden;
+} // .content
+
+.dataTable {
+	background-color: rgba(Red, 0.2);
+	@include flex(1);
+	position: relative;
+	overflow: hidden;
+	
+	p {
+		display: block;
+		text-align: right;
+		margin: auto 0;
+		color: rgba(255, 255, 255, 0.2);
+		font-weight: 800;
+		padding-right: 20px;
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		top: 0;
+		height: 100px;
+		overflow: hidden;
+		font-size: 2rem;
+	}
+} // .dataTable
+
+.properties {
+	background-color: rgba(Blue, 0.2);
+	@include flex(0 0 20rem);
+	order: 1;
+	@include transition(all .25s ease);
+	position: relative;
+	
+	.slider {
+		width: 3px;
+		height: 100vw;
+		background-color: rgba(Black, 0.1);
+		cursor: col-resize;
+		@include transition(background-color .3s linear);
+		&:hover {
+			background-color: rgba(Black, 0.5);
+		}
+	} // .slider
+	
+	.size {
+		display: block;
+		text-align: center;
+		margin: auto 0;
+		color: rgba(255, 255, 255, 0.4);
+		font-weight: 800;
+		padding-right: 20px;
+		position: absolute;
+		width: 90%;
+		left: 5%;
+		right: 5%;
+		bottom: 0;
+		top: 0;
+		height: 100px;
+		overflow: hidden;
+		font-size: 3rem;
+	} // .size
+	
+} // .properties
+
+.ghostSlider {	
+	position: absolute;
+	width: 3px;
+	height: 100vw;
+	background-color: rgba(Black, 0.5);
+	cursor: col-resize;
+	z-index: 9999;
+	
+} // .ghostSlider
