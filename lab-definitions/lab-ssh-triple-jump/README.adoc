@@ -1,12 +1,15 @@
 == Overview
 
 Simple triple jump ssh demo using `ProxyJump` directive in an `ssh.cfg`
-
+In this scenario your host machine and the `control` container cannot directly reach `target`.
+2 `ssh` jumpboxes sit between `control` and `target`.
 
 Host -> control -> jump_1 -> jump_2 -> taget
 
 
 === Usage
+
+To test directly with `ssh` from your host (laptop typically).
 
 [source,bash]
 ----
