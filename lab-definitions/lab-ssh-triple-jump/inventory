@@ -1,4 +1,4 @@
-[far_away_host]
+[remote_target_host]
 target
 
 [control_node]
