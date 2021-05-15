@@ -45,6 +45,7 @@ RUN dnf update -y \
       iputils \
       iproute \
       less \
+      ncurses \
       openssh-clients \
       python${PYTHON_VERSION:-36} \
       sudo \
