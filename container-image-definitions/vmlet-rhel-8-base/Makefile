@@ -20,7 +20,7 @@ help: ## Show this help - technically unnecessary as `make` alone will do
 # https://victoria.dev/blog/how-to-create-a-self-documenting-makefile/
 
 build : ## Do a docker based build
-build : ##    EXTRA_ARGS='--squash' for example
+build : ##    EXTRA_ARGS='--squash --no-cache' for example
 	DOCKER_BUILDKIT=1 \
 		docker build \
 		-f Dockerfile \
