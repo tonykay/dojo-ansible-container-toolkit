@@ -11,8 +11,8 @@ then
   tar -xf $(basename "$SSH_DIR_SOURCE")
   cp -r ./classroom/resources/bind_mounts/ssh/* /home/"${SSH_USER:-devops}"/.ssh
   chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.ssh
-#else
-#  echo SSH_DIR_SOURCE not set, use defaults or bind_mounts
+else
+  echo SSH_DIR_SOURCE not set, use defaults or bind_mounts
 fi
 
 # rm -fr /tmp/classroom

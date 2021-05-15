@@ -54,7 +54,7 @@ RUN dnf update -y \
     && systemctl enable sshd.service \
     && useradd --uid 1000 ${SSH_USER} \
     && mkdir -p /home/${SSH_USER}/.ssh \
-    && chmod 600 /home/${SSH_USER}/.ssh/authorized_keys \
+    && chmod 600 /home/${SSH_USER}/.ssh/* \
     && chmod 700 /home/${SSH_USER}/.ssh \
     && chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER} \
     && echo "${SSH_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \

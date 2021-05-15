@@ -12,24 +12,25 @@ services:
     image: service-rhel-8-terminal-base 
     privileged: true
     ports:
-      - "10080:8080"
+      - "2223:22"           # Direct ssh access localhost 2222 devops/vagrant key
+      - "10080:8888"        # Browser based terminal session
 #    volumes:
 #      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
 
   classroom-httpd:
+    image: registry.redhat.io/rhel8/httpd-24
     container_name: classroom-httpd
     hostname: classroom-httpd
-    image: quay.io/tonykay/classroom-rhel-8-httpd
-    volumes:
-      - "../content:/var/www/html:z,ro"
+      #    volumes:
+      # - "../content:/var/www/html:z,ro"
     privileged: true
     ports:
-      - "80:8080"
+      - "80:80"
 
   control:
+    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
     container_name: control
     hostname: control
-    image: vmlet-rhel-8-ansible-control
     ports:
       - "2222:22"
     privileged: true
@@ -37,31 +38,31 @@ services:
       # - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
     
   frontend:
+    image: quay.io/tonykay/vmlet-rhel-8-base
     container_name: frontend
     hostname: frontend
-    image: vmlet-rhel-8-base
     ports:
       - "8080:80"
     privileged: true
 
   app-01:
+    image: quay.io/tonykay/vmlet-rhel-8-base
     container_name: app-01
     hostname: app-01
-    image: vmlet-rhel-8-base
     privileged: true
 
   app-02:
+    image: quay.io/tonykay/vmlet-rhel-8-base
     container_name: app-02
     hostname: app-02
-    image: vmlet-rhel-8-base
     privileged: true
 
   appdb1:
+    image: quay.io/tonykay/vmlet-rhel-8-base
     container_name: appdb1
     hostname: appdb1
-    image: vmlet-rhel-8-base
     privileged: true
-    volumes:
-      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+#    volumes:
+#      - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
 
 ...

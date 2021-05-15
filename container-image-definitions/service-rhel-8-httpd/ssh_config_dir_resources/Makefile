@@ -1,11 +1,10 @@
-IMAGE_NAME 						= service-rhel-8-terminal-base
+IMAGE_NAME 						= vmlet-rhel-8-ansible-control
 REGISTRY 							= quay.io/tonykay
 CONTAINER_RUNTIME 		= docker
 
-CONTAINER_HOSTNAME 		= terminal
-#RHEL_VERSION 					= 8.3
+CONTAINER_HOSTNAME 		= control
+RHEL_VERSION 					= 8.3
 SSH_PORT 							= 2222
-TERMINAL_PORT 				= 8888
 SHELL_COMMAND 				= sudo su - devops
 
 # Used instead of docker run.... bash 
@@ -25,9 +24,8 @@ build : ##    EXTRA_ARGS='--squash' for example
 		docker build \
 		-f Dockerfile \
 		-t $(IMAGE_NAME) \
+		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
 		$(EXTRA_ARGS) .
-
-#		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
 
 build-epel : ## Do a docker based build using a Dockerfile with EPEL
 build-epel : ##    EXTRA_ARGS='--squash' for example
@@ -62,7 +60,6 @@ docker-run : ## Run image via docker with sensible defaults
 		--name $(CONTAINER_HOSTNAME) \
 		--hostname $(CONTAINER_HOSTNAME) \
 		--rm \
-		-p $(SSH_PORT):22 \
 		-p $(SSH_PORT):22 \
 		$(REGISTRY)/$(IMAGE_NAME) 
 

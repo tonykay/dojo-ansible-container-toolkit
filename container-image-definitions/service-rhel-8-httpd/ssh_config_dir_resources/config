@@ -1,0 +1,8 @@
+Host *
+  User devops
+  IdentityFile vagrant
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  ControlMaster auto
+  ControlPath /tmp/%h-%r
+  ControlPersist 5m
