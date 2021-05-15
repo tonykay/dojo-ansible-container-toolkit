@@ -7,15 +7,18 @@
     </head>
     <body>
     <div class="content">
-        <div class="split a">
+        <div class="split left">
           <iframe id="doc"  src="./template-tutorial/01-ansible-refactoring-overview.html" width="100%" style="border:none;"></iframe>
         </div>
-        <div class="split b"><iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
-          </div>
+        <div class="split right">
+          <iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+        </div>
     </div>
     <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
     <script>
-      Split(['.a', '.b']);
+      Split(['.left', '.right'], {
+        sizes: [45,55],
+      });
     </script>
     </body>
 </html>
