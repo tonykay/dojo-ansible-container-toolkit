@@ -17,7 +17,14 @@
 					<button class="tablinks" onclick="openTerminal(event, 'docs_tab')">Ansible Docs</button>
 				</div>
 					<div id="terminal_tab_01" class="tabcontent">
-						<iframe id="terminal_1" src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+
+						<div class="split top">
+							<iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+						</div>
+						<div class="split bottom">
+							<iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+						</div>
+						<!-- iframe id="terminal_1" src="http://localhost:10080" width="100%" style="border:none;"></iframe -->
 					</div>
 					<div id="terminal_tab_02" class="tabcontent">
 						<iframe id="terminal_2" src="http://localhost:10080" width="100%" style="border:none;"></iframe>
