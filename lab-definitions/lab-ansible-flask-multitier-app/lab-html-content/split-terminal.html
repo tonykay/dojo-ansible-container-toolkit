@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="split.css">
+    <link rel="stylesheet" type="text/css" href="split.css">
+    </head>
+    <body>
+    <div class="content">
+        <div class="split left">
+          <iframe id="doc"  src="./template-tutorial/01-ansible-refactoring-overview.html" width="100%" style="border:none;"></iframe>
+        </div>
+        <div class="split right">
+          <div class="split top">
+            <iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+          </div>
+          <div class="split bottom">
+            <iframe id="terminal"  src="http://localhost:10080" width="100%" style="border:none;"></iframe>
+          </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+    <script>
+      Split(['.left', '.right'], {
+        sizes: [45,55],
+      });
+      Split(['.top', '.bottom'], {
+        sizes: [65,35],
+        direction: 'vertical',
+            });
+    </script>
+    </body>
+</html>
