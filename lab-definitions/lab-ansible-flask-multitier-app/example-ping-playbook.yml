@@ -1,0 +1,12 @@
+---
+- name: Demo playbook accessing the remote target and jumpboxes
+  hosts: all
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: Simple ping showing ssh connectivity and use of a ssh.cfg
+      ping:
+
+...

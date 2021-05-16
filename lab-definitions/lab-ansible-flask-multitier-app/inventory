@@ -1,0 +1,17 @@
+[control_node]
+control
+
+[load_balancers]
+frontend
+
+[app_servers]
+app-01
+app-02
+
+[database_servers]
+appdb1
+
+[multi:children]
+load_balancers
+app_servers
+database_servers
