@@ -1,0 +1,45 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+  traefik:
+    image: traefik:v2.3
+    restart: always
+    command:
+      - --accesslog
+      - --api.insecure=true
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+      - "8080:8080"
+
+
+  web1:
+    image: registry.fedoraproject.org/f29/httpd
+    ports:
+      - 8080
+    hostname: web1
+    container_name: web1
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.orderservice.rule=Host(`homelab`) && Path(`web1`)
+
+  web2:
+    image: registry.fedoraproject.org/f29/httpd
+    ports:
+      - 8081
+    hostname: web2
+    container_name: web2
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.orderservice.rule=Host(`homelab`) && Path(`web2`)
+
+...
