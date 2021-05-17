@@ -14,12 +14,13 @@ services:
       - "--api.insecure=true"
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-        #        - "--providers.docker.exposedbydefault=false"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
       - "8080:8080"
+
+  # web1 accessible as web1.localhost      
 
   web1:
     image: registry.redhat.io/rhel8/httpd-24
@@ -30,11 +31,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))" 
-        # - "traefik.http.routers.web1.rule=Host(`web1.localhost`)"
-        #      - "traefik.docker.network=default"
       - "traefik.http.routers.web1.rule=PathPrefix(`/web1{regex:$$|/.*}`)"
       - "traefik.http.routers.web1.middlewares=web1-stripprefix"
       - "traefik.http.middlewares.web1-stripprefix.stripprefix.prefixes=/web1"
+
+  # web2 accessible as localhost/web2
 
   web2:
     image: registry.redhat.io/rhel8/httpd-24
@@ -45,11 +46,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web2.rule=(Host(`localhost`) && Path(`/web2`))"
-        #      - "traefik.docker.network=default"
       - "traefik.http.routers.web2.rule=PathPrefix(`/web2{regex:$$|/.*}`)"
       - "traefik.http.routers.web2.middlewares=web2-stripprefix"
       - "traefik.http.middlewares.web2-stripprefix.stripprefix.prefixes=/web2"
-        # - traefik.http.routers.web2.rule=Host(`web2.localhost`)
+        # - "traefik.docker.network=default"
+        # - "traefik.http.routers.web2.rule=Host(`web2.localhost`)"
+
+  # web3 accessible as web2.localhost      
 
   web3:
     image: registry.redhat.io/rhel8/httpd-24
@@ -59,10 +62,9 @@ services:
       - "./web3.html:/var/www/html/index.html:z,ro"
     labels:
       - "traefik.enable=true"
-        # - "traefik.http.routers.web3.rule=(Host(`localhost`) && Path(`/web3`))"
       - "traefik.http.routers.web3.rule=Host(`web3.localhost`)"
-#      - "traefik.docker.network=default"
-#      - "traefik.http.routers.web3.rule=PathPrefix(`/web3{regex:$$|/.*}`)"
-#      - "traefik.http.routers.web3.middlewares=web3-stripprefix"
-#      - "traefik.http.middlewares.web3-stripprefix.stripprefix.prefixes=/web3"
+        # - "traefik.docker.network=default"
+        # - "traefik.http.routers.web3.rule=PathPrefix(`/web3{regex:$$|/.*}`)"
+        # - "traefik.http.routers.web3.middlewares=web3-stripprefix"
+        # - "traefik.http.middlewares.web3-stripprefix.stripprefix.prefixes=/web3"
 ...
