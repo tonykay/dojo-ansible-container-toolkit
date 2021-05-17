@@ -17,6 +17,8 @@ To shutdown `docker compose down`
 
 === Testing and Exploring
 
+NOTE: The `traefik` dashboard is running, unsecured, access as http://localhost:8080
+
 Either with a browser, or curl, the following URLs should be available:
 
 * http://localhost/web1
@@ -44,6 +46,10 @@ Server: Apache/2.4.37 (Red Hat Enterprise Linux) OpenSSL/1.1.1g
 
 <h1>Hello from web2</h1>
 ----
+
+==== Debugging and Logs
+
+To verify requests are being received by each service `docker log -f [web1|web2|web3]` and in addition the `traefik` logs can be followed with `docker log -f traefik`
 
 === Traefik Configuration
 
@@ -117,3 +123,14 @@ A good use case would be, and in my case real, allow FQDNs for `gitlab` and `jen
 . Enable traefik for this service
 . Simple rule to route requests to web3.localhost to this service
 ** Note no re-writing of requests as in `web1` example, as typically unnecessary
+
+== Resources
+
+The following articles and docs were useful and may help cover your use cases and add more detail than this simple *README*.
+
+* link:https://doc.traefik.io/traefik/routing/overview/[Traefik Proxy Docs]
+* link:https://hollo.me/devops/routing-to-multiple-docker-compose-development-setups-with-traefik.html[Routing to multiple docker-compose setups using traefik]
+* link:https://blog.linuxserver.io/2018/02/03/using-traefik-as-a-reverse-proxy-with-docker/[Using Traefik as a Reverse Proxy with Docker]
+* link:https://www.simplecto.com/use-traefik-with-nginx-apache-caddyserver-serve-static-files/[Use Traefik 2 with Nginx, Apache, or CaddyServer to Serve Static Files]
+* link:https://graspingtech.com/docker-compose-traefik/[Using Traefik to Route HTTP Requests to Multiple Docker Microservices]
+* link:https://www.digitalocean.com/community/tutorials/how-to-use-traefik-as-a-reverse-proxy-for-docker-containers-on-ubuntu-18-04[How To Use Traefik as a Reverse Proxy for Docker Containers on Ubuntu 18.04]
