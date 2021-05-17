@@ -1,0 +1,119 @@
+== Dojo Traefik Lab
+
+A simple lab showing how to configure a link:https://traefik.io[Traefik] as a Reverse Proxy.
+3 RHEL Apache containers provide the targets.
+2 different approaches are shown allowing access as a *host* e.g. `curl http://web3.localhost` and as a *path* e.g. `curl http://localhost/web1`
+
+=== Running
+
+This is a very simple lab and configuration.
+
+[source,bash]
+----
+docker compose up -d 
+----
+
+To shutdown `docker compose down`
+
+=== Testing and Exploring
+
+Either with a browser, or curl, the following URLs should be available:
+
+* http://localhost/web1
+* http://localhost/web2
+* http://web3.localhost
+
+Example:
+
+[source,sh]
+----
+curl http://localhost/web2 -i
+----
+
+.Sample Output
+[source,texinfo]
+----
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Content-Length: 25
+Content-Type: text/html; charset=UTF-8
+Date: Mon, 17 May 2021 13:23:26 GMT
+Etag: "19-5c2795346fe49"
+Last-Modified: Sun, 16 May 2021 21:40:27 GMT
+Server: Apache/2.4.37 (Red Hat Enterprise Linux) OpenSSL/1.1.1g
+
+<h1>Hello from web2</h1>
+----
+
+=== Traefik Configuration
+
+For the actual `traefik` container you are referred to the documents which are IMO a bit terse and not entirely clear lacking simple compose examples.
+See final *Resources* sections for some blogs articles etc.
+
+[NOTE]
+====
+
+For simplicity `localhost` has been used throughout to allow simply running locally without changes to `/etc/hosts`.
+
+====
+
+.Traefik container settings
+[source,yaml]
+----
+    command:
+      - "--accesslog"
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+----
+
+==== Container web1 - allow service by path e.g. `localhost/web1`
+
+.Web Server web1 (accessible as http://localhost/web1)
+.Sample Output
+[source,yaml]
+----
+    labels:
+      - "traefik.enable=true"                                                       <1>
+      - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))"       <2>
+      - "traefik.http.routers.web1.rule=PathPrefix(`/web1{regex:$$|/.*}`)"          <3>
+      - "traefik.http.routers.web1.middlewares=web1-stripprefix"                    <4> 
+      - "traefik.http.middlewares.web1-stripprefix.stripprefix.prefixes=/web1"      <5>
+----
+
+. Enable Traefik - done at a service level so all services are not automatically exposed
+. Create rule with hostname *AND* a PathPrefix e.g. localhost/web1
+. Create a rule matching the PathPrefix to strip e.g Apache will receive `/` and not `/web1` in requests
+. Create a Traefik Middleware to strip PathPrefix
+. Activate the PathPrefix stripper
+
+Basically labels 2-5 above allow a service to be exposed without having a FQDN endpoint per service.
+So for example in Production you would *not* have to setup DNS per service.
+No need for `web1.example.com`, as `example.com/web1` works.
+
+[NOTE]
+====
+
+In all honesty I found configuring labels 3 to 5 non initiative and it took several attempts to
+get this working.
+If there is a cleaner, or superior way, or alternatively a good blog article please add an *Issue* or a PR.
+====
+
+==== Container web3 - allow service by host e.g. `web3.localhost`
+
+This is by far the simpler configuration but in production relies on having a FQDN per service.
+A good use case would be, and in my case real, allow FQDNs for `gitlab` and `jenkins` services.
+
+* gitlab.example.com
+* jenkins.example.com
+
+[source,sh]
+----
+    labels:
+      - "traefik.enable=true"                                     <1>
+      - "traefik.http.routers.web3.rule=Host(`web3.localhost`)"   <2>
+----
+
+. Enable traefik for this service
+. Simple rule to route requests to web3.localhost to this service
+** Note no re-writing of requests as in `web1` example, as typically unnecessary

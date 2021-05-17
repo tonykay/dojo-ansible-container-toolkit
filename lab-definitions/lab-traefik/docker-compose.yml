@@ -6,9 +6,9 @@ networks:
 
 services:
   traefik:
-    image: traefik:v2.3
-    restart: always
+    image: traefik:v2.4
     container_name: traefik
+    restart: always
     command:
       - "--accesslog"
       - "--api.insecure=true"
@@ -26,8 +26,9 @@ services:
     image: registry.redhat.io/rhel8/httpd-24
     container_name: web1
     hostname: web1
+    restart: always
     volumes:
-      - "./web1.html:/var/www/html/index.html:z,ro"
+      - "./www/web1.html:/var/www/html/index.html:z,ro"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))" 
@@ -41,8 +42,9 @@ services:
     image: registry.redhat.io/rhel8/httpd-24
     container_name: web2
     hostname: web2
+    restart: always
     volumes:
-      - "./web2.html:/var/www/html/index.html:z,ro"
+      - "./www/web2.html:/var/www/html/index.html:z,ro"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web2.rule=(Host(`localhost`) && Path(`/web2`))"
@@ -58,8 +60,9 @@ services:
     image: registry.redhat.io/rhel8/httpd-24
     container_name: web3
     hostname: web3
+    restart: always
     volumes:
-      - "./web3.html:/var/www/html/index.html:z,ro"
+      - "./www/web3.html:/var/www/html/index.html:z,ro"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web3.rule=Host(`web3.localhost`)"
