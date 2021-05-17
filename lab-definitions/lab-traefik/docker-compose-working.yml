@@ -1,14 +1,15 @@
 ---
 
 networks:
-  default:
-    name: example.com
+  traefik-network:
+    name: traefik-network
+#  default:
+#    name: example.com
 
 services:
   traefik:
     image: traefik:v2.3
     restart: always
-    container_name: traefik
     command:
       - "--accesslog"
       - "--api.insecure=true"
@@ -27,14 +28,18 @@ services:
     hostname: web1
     volumes:
       - "./web1.html:/var/www/html/index.html:z,ro"
+        #ports:
+        #- 8080
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))" 
-        # - "traefik.http.routers.web1.rule=Host(`web1.localhost`)"
-      - "traefik.docker.network=default"
-      - "traefik.http.routers.web1.rule=PathPrefix(`/web1{regex:$$|/.*}`)"
-      - "traefik.http.routers.web1.middlewares=web1-stripprefix"
-      - "traefik.http.middlewares.web1-stripprefix.stripprefix.prefixes=/web1"
+      # - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))"
+      #- traefik.http.routers.web1.rule=Host(`localhost`) && Path(`/web1`)
+      - traefik.http.routers.web1.rule=Host(`web1.localhost`)
+        #- traefik.http.middlewares.web1-stripperfix.stripprefix.prefixes=/web1
+        #- traefik.http.routers.web1.middlewares=gzip@docker,web1-stripprefix@docker
+        #      - "traefik.http.routers.web1.rule=Path(`/web1`)"
+        #      - "traefik.http.routers.web1.rule=PathPrefix(``)"
+        #- "traefik.http.services.web1.loadbalancer.server.port=8080"
+      - traefik.enable=true
 
   web2:
     image: registry.redhat.io/rhel8/httpd-24
@@ -42,10 +47,12 @@ services:
     hostname: web2
     volumes:
       - "./web2.html:/var/www/html/index.html:z,ro"
+    ports:
+      - 8080
     labels:
-      - "traefik.enable=true"
+      - traefik.enable=true
       - "traefik.http.routers.web2.rule=(Host(`localhost`) && Path(`/web2`))"
-      - "traefik.docker.network=default"
+      - "traefik.docker.network=traefik-network"
       - "traefik.http.routers.web2.rule=PathPrefix(`/web2{regex:$$|/.*}`)"
       - "traefik.http.routers.web2.middlewares=web2-stripprefix"
       - "traefik.http.middlewares.web2-stripprefix.stripprefix.prefixes=/web2"
@@ -57,11 +64,19 @@ services:
     hostname: web3
     volumes:
       - "./web3.html:/var/www/html/index.html:z,ro"
+    ports:
+      - 8080
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web3.rule=(Host(`localhost`) && Path(`/web3`))"
-      - "traefik.docker.network=default"
-      - "traefik.http.routers.web3.rule=PathPrefix(`/web3{regex:$$|/.*}`)"
+        #- "traefik.http.routers.web3.entrypoints=front"
+      - "traefik.http.routers.web3.rule=Host(`localhost`) && Path(`/web3`)"
+      - "traefik.http.routers.web3.rule=PathPrefix(`/app1{regex:$$|/.*}`)"
       - "traefik.http.routers.web3.middlewares=web3-stripprefix"
       - "traefik.http.middlewares.web3-stripprefix.stripprefix.prefixes=/web3"
+      - traefik.docker.network=traefik-network
+        #  app1"efik.http.routers.web3.rule=Host(`localhost`) && Path(`/web3`)
+        #a traefik.http.routers.web3.rule=Host(`localhost`) && Path(`/web3`)
+
+        #      - traefik.frontend.rule=Host:web3.example.com
+        #- traefik.http.routers.web3.rule=Host(`web3.localhost`)
 ...
