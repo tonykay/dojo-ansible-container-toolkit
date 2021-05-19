@@ -1,0 +1,19 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  base:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: base
+    hostname: base
+    ports:
+      - "2222:22"
+    privileged: true
+
+...
