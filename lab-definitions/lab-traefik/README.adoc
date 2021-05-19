@@ -134,3 +134,4 @@ The following articles and docs were useful and may help cover your use cases an
 * link:https://www.simplecto.com/use-traefik-with-nginx-apache-caddyserver-serve-static-files/[Use Traefik 2 with Nginx, Apache, or CaddyServer to Serve Static Files]
 * link:https://graspingtech.com/docker-compose-traefik/[Using Traefik to Route HTTP Requests to Multiple Docker Microservices]
 * link:https://www.digitalocean.com/community/tutorials/how-to-use-traefik-as-a-reverse-proxy-for-docker-containers-on-ubuntu-18-04[How To Use Traefik as a Reverse Proxy for Docker Containers on Ubuntu 18.04]
+* link:https://iceburn.medium.com/reverse-proxy-in-traefik-with-subdirectories-eef4261939e[Reverse proxy in Traefik with subdirectories]
