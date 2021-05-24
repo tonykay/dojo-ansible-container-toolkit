@@ -1,12 +1,22 @@
 ---
 - name: Demo playbook accessing the remote target and jumpboxes
   hosts: all
-  become: false
+  become: true
   gather_facts: false
 
   tasks:
 
     - name: Simple ping showing ssh connectivity and use of a ssh.cfg
       ping:
+
+    - name: Install httpd
+      dnf: 
+        name: httpd
+        state: latest
+
+    - name: Start httpd
+      service: 
+        name: httpd
+        state: started
 
 ...
