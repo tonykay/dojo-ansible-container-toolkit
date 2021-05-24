@@ -16,7 +16,8 @@ services:
       - "10080:8888"        # Browser based terminal session
 
   lab-httpd:
-    image: registry.redhat.io/rhel8/httpd-24
+    #    image: registry.redhat.io/rhel8/httpd-24
+    image: service-rhel-8-httpd
     container_name: lab-httpd
     hostname: lab-httpd
     volumes:

@@ -1,0 +1,40 @@
+== Simple example container running init
+
+* ssh e.g. `ssh -F ssh.cfg control` will `ssh` from your laptop into the `control` container
+* Via `ansible` from lab directory
+** `ansible.cfg` configures both *inventory* and *ssh.cfg*
+** A simple example `ping` playbook 
+** Simple `ansible` ad-hoc commands e.g.
++
+[source,sh]
+----
+
+----
++
+.Sample Output
+[source,texinfo]
+----
+
+----
+
+
+=== Running
+
+This is a very simple lab and configuration.
+
+[source,bash]
+----
+docker compose up -d 
+----
+
+To shutdown `docker compose down`
+
+=== Testing and Exploring
+
+
+[source,bash]
+----
+ansible target -m dnf -a "name=httpd state=latest" -b
+ansible target -m service -a "name=httpd state=started" -b
+----
+
