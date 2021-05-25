@@ -1,0 +1,40 @@
+== Quick Overview
+
+You will need to edit:
+
+. `ssh.cfg` to reflect your desired username/key
+. `inventory` to reflect your test host
+
+== Example commands
+
+. Use `ansible-playbook` to confirm connectivity
+
+[source,bash]
+----
+ansible-playbook example-ping-playbook.yml
+----
+
+[source,bash]
+----
+PLAY [Demo playbook accessing the remote target and jumpboxes] *****************************************************************************
+
+TASK [Simple ping showing ssh connectivity and use of a ssh.cfg] ***************************************************************************
+[DEPRECATION WARNING]: Distribution fedora 34 on host fedora should use /usr/bin/python3, but is using /usr/bin/python for backward
+compatibility with prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See
+ https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed
+in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [fedora]
+
+PLAY RECAP *********************************************************************************************************************************
+fedora                     : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+----
+
+. Use `ansible-navigator` to run playbook
+
+[source,bash]
+----
+ansible-navigator run -m stdout --container-engine docker --eei quay.io/ansible/ansible-runner:devel  example-ping-playbook.yml --pp missing
+----
+
+
