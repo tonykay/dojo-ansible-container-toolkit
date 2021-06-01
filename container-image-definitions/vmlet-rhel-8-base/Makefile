@@ -4,7 +4,7 @@ REGISTRY 							= quay.io/tonykay
 CONTAINER_RUNTIME 		= docker
 
 CONTAINER_HOSTNAME 		= base
-RHEL_VERSION 					= 8.3
+RHEL_VERSION 					= 8.4
 SSH_PORT 							= 2222
 SHELL_COMMAND 				= sudo su - devops
 
