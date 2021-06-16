@@ -9,20 +9,24 @@ FROM quay.io/tonykay/vmlet-rhel-8-base:latest
 #vmlet-rhel-8-base
 # ssh, systemd, passwordless sudo container for ansible target use etc
 #
-# docker run --privileged -d -p 2222:22 --rm --name vmlet-rhel-8-base
+# docker run --privileged -d -p 2222:22 --rm --name vmlet-rhel-8-ansible-latest
 
 LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com"
 
-ENV ANSIBLE_VERSION=<2.10
+# ENV ANSIBLE_VERSION=<2.10
 ENV SSH_PORT=22
 ENV SSH_USER=devops
 # ENV SSH_KEY_NAME=devops
 
 RUN dnf install -y \
+      buildah \
       git \
+      podman \
+      skopeo \
       vim \
     && python3 -m pip install --upgrade pip setuptools wheel \
-    && pip3 --no-cache-dir install ansible${ANSIBLE_VERSION} \
+    && pip3 --no-cache-dir install -U ansible \
+    && /usr/local/bin/pip3 install --no-cache-dir --pre ansible-builder ansible-navigator ansible-runner \
     && pip3 cache purge \
     && dnf clean all \
     && rm -rf /var/cache/dnf /root/.cache

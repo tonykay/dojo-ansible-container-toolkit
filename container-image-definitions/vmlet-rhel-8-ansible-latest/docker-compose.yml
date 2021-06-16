@@ -1,0 +1,19 @@
+---
+
+version: "3"
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  control:
+    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
+    container_name: control
+    hostname: control
+    ports:
+      - "2222:22"
+    privileged: true
+
+...

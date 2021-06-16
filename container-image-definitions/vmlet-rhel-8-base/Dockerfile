@@ -11,13 +11,15 @@ LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com"
 
 ENV SSH_PORT=22
 ENV SSH_USER=devops
-ENV PYTHON_VERSION=36
+ENV PYTHON_VERSION=38
 # ENV SSH_KEY_NAME=devops
 
 # CentOS openssh-server to not break UBI restrictions
 
+ENV SSH_RPM=openssh-8.0p1-5.el8.x86_64.rpm
 ENV SSH_SERVER_RPM=openssh-server-8.0p1-5.el8.x86_64.rpm
-ENV SSH_SERVER_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/
+ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-5.el8.x86_64.rpm
+ENV SSH_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/
 
 # These keys are "well known" vagrant keys - they are NOT for production use
 # ENV SSH_PUBLIC_KEY_URL=https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
@@ -34,9 +36,11 @@ COPY ssh_config_dir_resources/* /home/${SSH_USER}/.ssh/
 
 ENV SSH_USER_PASSWORD='$6$tWkgXG0kU57p7Rjc$ZCvOpW.oHLT0l6KEnk8CUW.o2OjP7vtnly8YbhXMd4ArugznNQFEwkpMR2S7hHLZxrjYIKFgCXLtBakh21Z4t0'
 
+    # && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
+    # && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
+    # && rpm -Uvh $http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
+
 RUN dnf update -y \
-    && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
-    && rpm -Uvh ${SSH_SERVER_RPM_HOME}${SSH_SERVER_RPM} \
     && dnf install -y \
       bind-utils \
       file \
@@ -46,9 +50,12 @@ RUN dnf update -y \
       iproute \
       less \
       ncurses \
-      openssh-clients \
       python${PYTHON_VERSION:-36} \
       sudo \
+    && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/libedit-3.1-23.20170329cvs.el8.x86_64.rpm \
+    && rpm -Uvh ${SSH_RPM_HOME}${SSH_RPM} \
+    && rpm -Uvh ${SSH_RPM_HOME}${SSH_SERVER_RPM} \
+    && rpm -Uvh ${SSH_RPM_HOME}${SSH_CLIENT_RPM} \
     && echo "RSAAuthentication yes" >> /etc/ssh/sshd_config \
     && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config \
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
