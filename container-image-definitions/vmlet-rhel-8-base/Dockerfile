@@ -16,9 +16,9 @@ ENV PYTHON_VERSION=38
 
 # CentOS openssh-server to not break UBI restrictions
 
-ENV SSH_RPM=openssh-8.0p1-5.el8.x86_64.rpm
-ENV SSH_SERVER_RPM=openssh-server-8.0p1-5.el8.x86_64.rpm
-ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-5.el8.x86_64.rpm
+ENV SSH_RPM=openssh-8.0p1-6.el8_4.2.x86_64.rpm
+ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-6.el8_4.2.x86_64.rpm
+ENV SSH_SERVER_RPM=openssh-server-8.0p1-6.el8_4.2.x86_64.rpm
 ENV SSH_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/
 
 # These keys are "well known" vagrant keys - they are NOT for production use
@@ -36,10 +36,6 @@ COPY ssh_config_dir_resources/* /home/${SSH_USER}/.ssh/
 
 ENV SSH_USER_PASSWORD='$6$tWkgXG0kU57p7Rjc$ZCvOpW.oHLT0l6KEnk8CUW.o2OjP7vtnly8YbhXMd4ArugznNQFEwkpMR2S7hHLZxrjYIKFgCXLtBakh21Z4t0'
 
-    # && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
-    # && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
-    # && rpm -Uvh $http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/openssh-8.0p1-5.el8.x86_64.rpm \
-
 RUN dnf update -y \
     && dnf install -y \
       bind-utils \
@@ -49,10 +45,10 @@ RUN dnf update -y \
       iputils \
       iproute \
       less \
+      libedit \
       ncurses \
       python${PYTHON_VERSION:-36} \
       sudo \
-    && rpm -Uvh http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/libedit-3.1-23.20170329cvs.el8.x86_64.rpm \
     && rpm -Uvh ${SSH_RPM_HOME}${SSH_RPM} \
     && rpm -Uvh ${SSH_RPM_HOME}${SSH_SERVER_RPM} \
     && rpm -Uvh ${SSH_RPM_HOME}${SSH_CLIENT_RPM} \
