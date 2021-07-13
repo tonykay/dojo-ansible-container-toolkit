@@ -1,13 +1,16 @@
 # syntax = docker/dockerfile:1.0-experimental
 
+ARG ARCH
 ARG RHEL_VERSION
 FROM registry.access.redhat.com/ubi8/ubi-init:${RHEL_VERSION:-latest}
+ENV ARCH=${ARCH:-x86_64}
 
 # ssh, systemd, passwordless sudo container for ansible target use etc
 #
 # docker run --privileged -d -p 2222:22 --rm --name vmlet-rhel-8-base
 
 LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com"
+
 
 ENV SSH_PORT=22
 ENV SSH_USER=devops
@@ -16,10 +19,10 @@ ENV PYTHON_VERSION=38
 
 # CentOS openssh-server to not break UBI restrictions
 
-ENV SSH_RPM=openssh-8.0p1-6.el8_4.2.x86_64.rpm
-ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-6.el8_4.2.x86_64.rpm
-ENV SSH_SERVER_RPM=openssh-server-8.0p1-6.el8_4.2.x86_64.rpm
-ENV SSH_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/
+ENV SSH_RPM=openssh-8.0p1-6.el8_4.2.${ARCH}.rpm
+ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-6.el8_4.2.${ARCH}.rpm
+ENV SSH_SERVER_RPM=openssh-server-8.0p1-6.el8_4.2.${ARCH}.rpm
+ENV SSH_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/${ARCH}/os/Packages/
 
 # These keys are "well known" vagrant keys - they are NOT for production use
 # ENV SSH_PUBLIC_KEY_URL=https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub

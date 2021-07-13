@@ -1,7 +1,8 @@
-IMAGE_NAME=vmlet-rhel-8-base
+IMAGE_NAME 						= vmlet-rhel-8-base
 
 REGISTRY 							= quay.io/tonykay
 CONTAINER_RUNTIME 		= docker
+ARCH 									= x86_64
 
 CONTAINER_HOSTNAME 		= base
 RHEL_VERSION 					= 8.4
@@ -26,6 +27,18 @@ build : ##    EXTRA_ARGS='--squash --no-cache' for example
 		-f Dockerfile \
 		-t $(IMAGE_NAME) \
 		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
+		--build-arg=ARCH=x86_64 \
+		$(EXTRA_ARGS) .
+
+build-arm : ## Do a docker based build
+build-arm : ##    EXTRA_ARGS='--squash --no-cache' for example
+	DOCKER_BUILDKIT=1 \
+		docker buildx build \
+		-f Dockerfile \
+		-t $(IMAGE_NAME) \
+		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
+	  --build-arg=ARCH=$(ARCH) \
+		--platform linux/arm64/v7 \
 		$(EXTRA_ARGS) .
 
 build-epel : ## Do a docker based build using a Dockerfile with EPEL
