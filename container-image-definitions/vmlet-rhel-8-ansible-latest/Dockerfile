@@ -33,8 +33,8 @@ RUN dnf install -y \
 
 EXPOSE ${SSH_PORT:-22}
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/sbin/init"]

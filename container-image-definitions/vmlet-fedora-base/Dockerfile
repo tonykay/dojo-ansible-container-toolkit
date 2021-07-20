@@ -49,10 +49,10 @@ RUN dnf update -y \
 
 EXPOSE ${SSH_PORT:-22}
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 # USER devops # Fix via sudo in CMD?
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/sbin/init"]

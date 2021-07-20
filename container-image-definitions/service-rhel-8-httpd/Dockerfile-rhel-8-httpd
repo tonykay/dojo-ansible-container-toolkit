@@ -3,9 +3,9 @@ FROM registry.redhat.io/rhel8/httpd-24
 # ADD app-src/index.html /var/www/html/index.html
 #
 
-COPY httpd-entrypoint.sh /httpd-entrypoint.sh
+COPY entrypoint.sh /httpd-entrypoint.sh
 
-ENTRYPOINT ["/httpd-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["run-httpd"]
 
