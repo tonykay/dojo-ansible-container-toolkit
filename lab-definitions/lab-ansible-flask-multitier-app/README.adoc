@@ -9,18 +9,6 @@ Alternatively the lab can be accessed via:
 ** `ansible.cfg` configures both *inventory* and *ssh.cfg*
 ** A simple example `ping` playbook 
 ** Simple `ansible` ad-hoc commands e.g.
-+
-[source,sh]
-----
-
-----
-+
-.Sample Output
-[source,texinfo]
-----
-
-----
-
 
 === Running
 
@@ -36,121 +24,27 @@ To shutdown `docker compose down`
 === Testing and Exploring
 
 
-
-NOTE: The `traefik` dashboard is running, unsecured, access as http://localhost:8080
-
-Either with a browser, or curl, the following URLs should be available:
-
-* http://localhost/web1
-* http://localhost/web2
-* http://web3.localhost
-
-Example:
+If working in the lab directory your `ansible.cfg` will allow you to successfully: 
 
 [source,sh]
 ----
-curl http://localhost/web2 -i
+ansible all -m ping 
 ----
 
-.Sample Output
-[source,texinfo]
-----
-HTTP/1.1 200 OK
-Accept-Ranges: bytes
-Content-Length: 25
-Content-Type: text/html; charset=UTF-8
-Date: Mon, 17 May 2021 13:23:26 GMT
-Etag: "19-5c2795346fe49"
-Last-Modified: Sun, 16 May 2021 21:40:27 GMT
-Server: Apache/2.4.37 (Red Hat Enterprise Linux) OpenSSL/1.1.1g
-
-<h1>Hello from web2</h1>
-----
-
-==== Debugging and Logs
-
-To verify requests are being received by each service `docker log -f [web1|web2|web3]` and in addition the `traefik` logs can be followed with `docker log -f traefik`
-
-=== Traefik Configuration
-
-For the actual `traefik` container you are referred to the documents which are IMO a bit terse and not entirely clear lacking simple compose examples.
-See final *Resources* sections for some blogs articles etc.
-
-[NOTE]
-====
-
-For simplicity `localhost` has been used throughout to allow simply running locally without changes to `/etc/hosts`.
-
-====
-
-.Traefik container settings
-[source,yaml]
-----
-    command:
-      - "--accesslog"
-      - "--api.insecure=true"
-      - "--providers.docker"
-      - "--entrypoints.web.address=:80"
-----
-
-==== Container web1 - allow service by path e.g. `localhost/web1`
-
-.Web Server web1 (accessible as http://localhost/web1)
-.Sample Output
-[source,yaml]
-----
-    labels:
-      - "traefik.enable=true"                                                       <1>
-      - "traefik.http.routers.web1.rule=(Host(`localhost`) && Path(`/web1`))"       <2>
-      - "traefik.http.routers.web1.rule=PathPrefix(`/web1{regex:$$|/.*}`)"          <3>
-      - "traefik.http.routers.web1.middlewares=web1-stripprefix"                    <4> 
-      - "traefik.http.middlewares.web1-stripprefix.stripprefix.prefixes=/web1"      <5>
-----
-
-. Enable Traefik - done at a service level so all services are not automatically exposed
-. Create rule with hostname *AND* a PathPrefix e.g. localhost/web1
-. Create a rule matching the PathPrefix to strip e.g Apache will receive `/` and not `/web1` in requests
-. Create a Traefik Middleware to strip PathPrefix
-. Activate the PathPrefix stripper
-
-Basically labels 2-5 above allow a service to be exposed without having a FQDN endpoint per service.
-So for example in Production you would *not* have to setup DNS per service.
-No need for `web1.example.com`, as `example.com/web1` works.
-
-[NOTE]
-====
-
-In all honesty I found configuring labels 3 to 5 non initiative and it took several attempts to
-get this working.
-If there is a cleaner, or superior way, or alternatively a good blog article please add an *Issue* or a PR.
-====
-
-==== Container web3 - allow service by host e.g. `web3.localhost`
-
-This is by far the simpler configuration but in production relies on having a FQDN per service.
-A good use case would be, and in my case real, allow FQDNs for `gitlab` and `jenkins` services.
-
-* gitlab.example.com
-* jenkins.example.com
+or with `ansible-playbook`
 
 [source,sh]
 ----
-    labels:
-      - "traefik.enable=true"                                     <1>
-      - "traefik.http.routers.web3.rule=Host(`web3.localhost`)"   <2>
+ansible-playbook example-ping-playbook.yml
 ----
 
-. Enable traefik for this service
-. Simple rule to route requests to web3.localhost to this service
-** Note no re-writing of requests as in `web1` example, as typically unnecessary
+. ssh connectivity exists to both the `terminal` and `control` _"nodes"_
 
-== Resources
+[source,sh]
+----
+ssh -F ssh.cfg control
+----
 
-The following articles and docs were useful and may help cover your use cases and add more detail than this simple *README*.
 
-* link:https://doc.traefik.io/traefik/routing/overview/[Traefik Proxy Docs]
-* link:https://hollo.me/devops/routing-to-multiple-docker-compose-development-setups-with-traefik.html[Routing to multiple docker-compose setups using traefik]
-* link:https://blog.linuxserver.io/2018/02/03/using-traefik-as-a-reverse-proxy-with-docker/[Using Traefik as a Reverse Proxy with Docker]
-* link:https://www.simplecto.com/use-traefik-with-nginx-apache-caddyserver-serve-static-files/[Use Traefik 2 with Nginx, Apache, or CaddyServer to Serve Static Files]
-* link:https://graspingtech.com/docker-compose-traefik/[Using Traefik to Route HTTP Requests to Multiple Docker Microservices]
-* link:https://www.digitalocean.com/community/tutorials/how-to-use-traefik-as-a-reverse-proxy-for-docker-containers-on-ubuntu-18-04[How To Use Traefik as a Reverse Proxy for Docker Containers on Ubuntu 18.04]
+
+
