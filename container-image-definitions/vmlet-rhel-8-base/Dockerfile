@@ -1,4 +1,6 @@
-# syntax = docker/dockerfile:1.0-experimental
+
+
+###  syntax # = docker/dockerfile:1.0-experimental
 
 ARG ARCH
 ARG RHEL_VERSION

@@ -37,7 +37,7 @@ build-arm : ##    EXTRA_ARGS='--squash --no-cache' for example
 		-f Dockerfile \
 		-t $(IMAGE_NAME) \
 		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
-	  --build-arg=ARCH=$(ARCH) \
+	  --build-arg=ARCH=aarch64 \
 		--platform linux/arm64/v7 \
 		$(EXTRA_ARGS) .
 

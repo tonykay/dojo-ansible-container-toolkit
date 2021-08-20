@@ -1,0 +1,9 @@
+[remote_target_host]
+target
+
+[control_node]
+control
+
+[jumpboxes]
+jump_1
+jump_2

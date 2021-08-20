@@ -1,0 +1,85 @@
+== Overview
+
+Simple triple jump ssh demo using `ProxyJump` directive in an `ssh.cfg`
+In this scenario your host machine and the `control` container cannot directly reach `target`.
+2 `ssh` jumpboxes sit between `control` and `target`.
+
+Host -> control -> jump_1 -> jump_2 -> taget
+
+
+=== Usage
+
+To test directly with `ssh` from your host (laptop typically).
+
+[source,bash]
+----
+docker compose up -d
+ssh -F ssh.cfg target
+----
+
+=== Ansible example
+
+Simple `ansible.cfg` to show one way of using an external `ssh.cfg` file
+
+
+[source,bash]
+----
+[defaults]
+inventory                   = inventory
+
+[ssh_connection]
+ssh_args                    = -F ./ssh.cfg
+----
+
+And a simple `inventory`
+
+
+[source,bash]
+----
+----
+[far_away_host]
+target
+
+[control_node]
+control
+
+[jumpboxes]
+jump_1
+jump_2
+
+. Example usage
+
+[source,bash]
+----
+ansible all -m ping
+Friday 14 May 2021  11:24:03 -0600 (0:00:00.203)       0:00:00.203 ************
+control | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+jump_1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+target | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+jump_2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+----
+

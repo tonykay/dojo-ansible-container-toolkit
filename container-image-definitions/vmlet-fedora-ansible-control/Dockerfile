@@ -28,16 +28,6 @@ COPY ssh_config_dir_resources/* /home/${SSH_USER}/.ssh/
 
 ENV SSH_USER_PASSWORD='$6$tWkgXG0kU57p7Rjc$ZCvOpW.oHLT0l6KEnk8CUW.o2OjP7vtnly8YbhXMd4ArugznNQFEwkpMR2S7hHLZxrjYIKFgCXLtBakh21Z4t0'
 
-RUN dnf -y install systemd && dnf clean all && \
-  (cd /lib/systemd/system/sysinit.target.wants/ ; for i in * ; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i ; done) ; \
-  rm -f /lib/systemd/system/multi-user.target.wants/* ;\
-  rm -f /etc/systemd/system/*.wants/* ;\
-  rm -f /lib/systemd/system/local-fs.target.wants/* ; \
-  rm -f /lib/systemd/system/sockets.target.wants/*udev* ; \
-  rm -f /lib/systemd/system/sockets.target.wants/*initctl* ; \
-  rm -f /lib/systemd/system/basic.target.wants/* ;\
-  rm -f /lib/systemd/system/anaconda.target.wants/*
-
 RUN dnf update -y \
     && dnf install -y \
       bind-utils \
@@ -57,10 +47,13 @@ RUN dnf update -y \
       openssh-server \
       ncurses \
       podman \
+      procps-ng \
       python${PYTHON_VERSION:-38} \
       python3-devel \
+      python3-pip \
       skopeo \
       sudo \
+      systemd \
       vim \
     && echo "RSAAuthentication yes" >> /etc/ssh/sshd_config \
     && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config \
@@ -72,18 +65,22 @@ RUN dnf update -y \
     && chmod 700 /home/${SSH_USER}/.ssh \
     && chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER} \
     && echo "${SSH_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && sed -i"" "s/^devops:\!\!/devops:${SSH_USER_PASSWORD}/" /etc/shadow 
-
-
-RUN dnf install -y python3-pip \
+    && sed -i"" "s/^devops:\!\!/devops:${SSH_USER_PASSWORD}/" /etc/shadow \
     && pip3 --no-cache-dir install \
       ansible \
       ansible-navigator \
       ansible-builder \ 
-    && pip3 cache purge 
-
-RUN    dnf clean all \
-    && rm -rf /var/cache/dnf /root/.cache
+    && pip3 cache purge \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf /root/.cache \
+    && (cd /lib/systemd/system/sysinit.target.wants/ ; for i in * ; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i ; done) ; \
+      rm -f /lib/systemd/system/multi-user.target.wants/* ;\
+      rm -f /etc/systemd/system/*.wants/* ;\
+      rm -f /lib/systemd/system/local-fs.target.wants/* ; \
+      rm -f /lib/systemd/system/sockets.target.wants/*udev* ; \
+      rm -f /lib/systemd/system/sockets.target.wants/*initctl* ; \
+      rm -f /lib/systemd/system/basic.target.wants/* ;\
+      rm -f /lib/systemd/system/anaconda.target.wants/*
 
 EXPOSE ${SSH_PORT:-22}
 
@@ -97,4 +94,3 @@ COPY storage.conf /etc/containers/storage.conf
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/sbin/init"]
-
