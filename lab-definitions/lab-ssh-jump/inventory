@@ -1,0 +1,6 @@
+[targets]
+ssh_target_1
+
+[control_node]
+control
+

@@ -1,6 +1,35 @@
 == Overview
 
-Simple triple jump ssh demo using `ProxyJump` directive in an `ssh.cfg`
+Simple jump ssh demo using `ProxyJump` directive in an `ssh.cfg` and a `docker-compose.yml` for orchestration.
+
+
+[NOTE]
+====
+
+
+====
+
+=== Using compose
+
+The `docker-compose.yml` has *not* been tested with `podman`.
+Commands assume a recent version of `docker` and use the `docker compose` style rather than the older `docker-compose`.
++
+
+[source,sh]
+----
+docker compose start control
+docker compose up --scale target=100  # Bring up and deploy 100 targets
+docker compose stop 
+docker compose stop control  # stop the control node
+
+----
+
+
+=== Inventories
+
+At this writing I could only get the `ansible.cfg` `ssh_args = -F ./ssh.cfg` to be honored fully via a static inventory.
+
+
 In this scenario your host machine and the `control` container cannot directly reach `target`.
 2 `ssh` jumpboxes sit between `control` and `target`.
 
@@ -83,3 +112,728 @@ jump_2 | SUCCESS => {
 }
 ----
 
+ansible-playbook deploy_app.yml --tags application_servers --start-at-task="Initialize flask app database resources"
+vim configs/ansible-multi-node/default_vars_osp.yml
+vim configs/ansible-multi-node/default_vars.yml
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-23
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-21
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-10
+ansible-playbook deploy_app.yml #
+ssh cloud-user@control.tok-hona-23.red.osp.opentlc.com 
+ansible-playbook deploy-app.yml --start-at-task="Install load balancer packages"
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-23.red.osp.opentlc.com 
+ansible-playbook smoke-test.yml
+ansible-playbook smoke-test.yml -b
+ssh -F ssh-jumpbox.cfg app-01 -i ~/.ssh/tok-hona-23key.pem
+ansible-playbook smoke-test.yml 
+ssh cloud-user@control.tok-hona-23.red.osp.opentlc.com
+ansible all -m ping -i inventory
+ansible all -m ping -i control, -vv
+ansible all -m ping -i app-01, -vvvv
+vim ../solution_ansible_flask_app_loader_all_in_one/host-jumpbox
+vim ../solution_ansible_flask_app_loader_all_in_one/ssh.cfg
+ansible all -m ping -i app-01.example.com, -vvvv
+ssh -F ssh-jumpbox.cfg frontend.example.com
+ansible all -m ping -i control, -vvvv
+ansible all -m ping  -vvvv
+ansible all -m ping -i hosts -vvvv
+ansible all -m ping -i inventory.ini -vvvv
+diff ansible.cfg ~/Downloads/multitier_api_web_db/ansible.cfg
+ssh -F ssh-jump.cfg control
+ansible app_servers -m ping -i inventory.ini
+ansible app_servers -m ping 
+ansible all -m ping 
+ansible all -m ping -i inventory.ini
+ssh -F ssh-jump.cfg app-01.example.com
+ansible app01 -m ping
+head ansible.cfg
+tail ansible.cfg
+ansible frontend -m ping
+ansible database-01 -m ping
+ssh -F ssh-jump.cfg app-01
+ssh -F ssh-jumpbox.cfg database-01
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-24
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-18
+ssh cloud-user@control.tok-hona-24.red.osp.opentlc.com 
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-24.red.osp.opentlc.com 
+ansible control -m ping
+ansible all -m ping -i control,
+ssh -F ssh-jumpbox.cfg control -vvv
+ssh -F ~/Downloads/multitier_api_web_db/ssh-jumpbox.cfg control
+ansible all -m ping -i hosts
+ssh devops@control.tok-hona-24.red.osp.opentlc.com 
+ssh devops@control.tok-hona-22.red.osp.opentlc.com 
+ssh devops@control.tok-hona-23.red.osp.opentlc.com 
+ssh devops@control.tok-hona-22.red.osp.opentlc.com
+ssh -F ssh-tok.cfg control
+ssh -F ssh-tok.cfg app-01
+gc -am "More subtle ssh and ansible.cfg fixes"
+cat ansible.cfg
+ansible app-01 -m ping
+ansible all -m tok
+ssh -F ssh-24.cfg app-01.example.com
+ssh -F ssh-jumpbox.cfg app-01
+ssh -F ssh-jumpbox.cfg app-01.example.com
+ssh -F ssh-jumpbox.cfg app-01.example.com pip3 --version
+ssh -F ssh-jumpbox.cfg app-01.example.com /usr/bin/pip3 --version
+ansible-playbook deploy_app.yml --tags application_servers # --start-at-task="Initialize flask app database resources"
+ansible-playbook deploy-app.yml --tags application_servers # --start-at-task="Initialize flask app database resources"
+ssh -F ssh-jumpbox.cfg app-01.example.com /usr/bin/pip3.8 --version
+ssh -F ssh-tok.cfg app-01.example.com /usr/bin/pip3.8 --version
+ssh -F ssh-tok.cfg app-01 /usr/bin/pip3.8 --version
+ansible --version
+ansible-playbook deploy-app.yml # --tags application_servers # --start-at-task="Initialize flask app database resources"
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-25
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-19 
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-22
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-23
+gc -am "Enhancements to hona changes for ansible-multi-node"
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-26
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-24
+git checkout config-ansible-multi-enhance-for-hona 
+cp ~/repos/agnosticd/repo/agnosticd/ansible/configs/ansible-multi-node/sample_vars/hands_on_aap2.yml .
+podman pull registry.redhat.io/ansible-automation-platform-20-early-access/ee-supported-rhel8:2.0.0\n
+idocker pull registry.redhat.io/ansible-automation-platform-20-early-access/ee-supported-rhel8:2.0.0\n
+docker pull registry.redhat.io/ansible-automation-platform-20-early-access/ee-supported-rhel8:2.0.0\n
+ls -a ~/.docker
+ls -a ~/.docker/config.json
+cat ~/.docker/config.json
+echo "roles_path              = dynamic-roles:ansible/dynamic-roles:roles-infra:ansible/roles-infra:roles:ansible/roles:ansible/roles_studentvm:roles_studentvm:ansible/roles_ocp_workloads:roles_ocp_workloads" wc
+echo "roles_path              = dynamic-roles:ansible/dynamic-roles:roles-infra:ansible/roles-infra:roles:ansible/roles:ansible/roles_studentvm:roles_studentvm:ansible/roles_ocp_workloads:roles_ocp_workloads" | wc
+mkdir 01_Overview 02_Working with ansible-navigator
+mkdir  02_Working_with_ansible-navigator
+mkdir  04_Working_with_ansible-builder_and_Execution_Environments
+rm -fr 02_Working 03_Automation_Controller 04_Working_with_Execution_Environments with ansible-navigator
+touch ./02_Working_with_ansible-navigator/_Slides.adoc
+touch ./04_Working_with_ansible-builder_and_Execution_Environments/_Slides.adoc
+cp ../../ansible_advanced/repos/ansible_advanced/modules/04_Ansible_Tower_Clusters/* 03_Ansible_automation_controller
+cp ../../ansible_advanced/repos/ansible_advanced/modules/04_Ansible_Tower_Clusters/* 03_Ansible_automation_controller/
+cp -r ../../ansible_advanced/repos/ansible_advanced/modules/04_Ansible_Tower_Clusters/* 03_Ansible_automation_controller/
+cp 04_Working_with_ansible-builder_and_Execution_Environments/_Slides.adoc 01_Overview 02_Working_with_ansible-navigator 04_Working_with_ansible-builder_and_Execution_Environments
+cp _Slides.adoc ../02_Working_with_ansible-navigator
+cp _Slides.adoc ../04_Working_with_ansible-builder_and_Execution_Environments
+cp 03_01_Ansible_automation_controller_Deployment_Lab.adoc ../02_Working_with_ansible-navigator/02_01_Getting_Started_With_ansible-navigator_lab.adoc
+cp 03_01_Ansible_automation_controller_Deployment_Lab.adoc ../04_Working_with_ansible-builder/04_01_Working_with_ansible-builder_Lab.adoc
+ls ../04_Working_with_ansible-builder_and_Execution_Environments
+cp 03_01_Ansible_automation_controller_Deployment_Lab.adoc ../04_Working_with_ansible-builder_and_Execution_Environments/04_01_Working_with_ansible-builder_and_Execution_Environments_Lab.adoc
+ssh dev.v
+vim configs/ansible-multi-node/stop.yml
+ls configs/ansible-advanced-v2
+rg ansible-multi-node 
+git checkout -b config-ansible-multi-enhance-for-hona-01
+git rm configs/ansible-multi-node/stop.yml
+../ansible_automation_platform_2_foundations/modules/01_Introduction
+../ansible_automation_platform_foundations/modules/03_Ansible_Engine
+cp ../../../ansible_advanced/repos/ansible_advanced/modules/01_Course_Intro/_Slides.adoc 03_Ansible_automation_controller/
+cp ../../../ansible_advanced/repos/ansible_advanced/modules/01_Course_Intro/_Slides.adoc .
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-27
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-25
+ansible-playbook destroy.yml -e @configs/ansible-osp-sandbox/default_vars.yml -e guid=tok-osp-22 -e @~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml
+ssh cloud-user@control.tok-hona-25.red.osp.opentlc.com 
+ansible-galaxy collection install ansible.workshops -pecgs.
+vim ../../agnosticd-dev/ansible/roles/control-user/tasks/create-user.yml
+ansible-doc user
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-28
+ssh cloud-user@control.tok-hona-27.red.osp.opentlc.com 
+gc -am "Comment out ssh cfgs from ansible.cfg"
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-29
+cp configs/ansible-multi-node/post_software.yml ~/Downloads\n
+git restore configs/ansible-multi-node/post_software.yml\n
+vim configs/ansible-multi-node/software.yml
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-30
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-31
+ansible-review roles/control-user/tasks/ssh-config.yml
+ansible-lint roles/control-user/tasks/ssh-config.yml
+git restore configs/ansible-multi-node/pre_software.yml\n
+ssh devops@control.tok-hona-30.red.osp.opentlc.com
+ssh devops@control.tok-hona-29.red.osp.opentlc.com
+ssh devops@control.tok-hona-31.red.osp.opentlc.com
+ssh cloud-user@control.tok-hona-29.red.osp.opentlc.com
+vim configs/ansible-multi-node/pre_software.yml
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-32
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-31
+ansible-playbook teardown-app.yml -e @roles/postgres/defaults/main.yml
+ssh devops@control.tok-hona-32.red.osp.opentlc.com
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-32.red.osp.opentlc.com 
+mv 02_Working_with_ansible-navigator/02_01_Getting_Started_With_ansible-navigator_lab.adoc 01_Hands_on_AAP2
+mv 04_Working_with_ansible-builder_and_Execution_Environments/04_01_Working_with_ansible-builder_and_Execution_Environments_Lab.adoc 01_Hands_on_AAP2
+rm -fr 02_Working_with_ansible-navigator 03_Ansible_automation_controller 04_Working_with_ansible-builder_and_Execution_Environments
+ansible-playbook smoke-test-app.yml
+ansible-playbook teardown-app.yml
+ansible-playbook teardown-app.yml --limit app_servers
+ansible-playbook deploy-app.yml  --limit app_servers
+ansible-playbook teardown-app.yml 
+ssh cloud-user@control.tok-hona-26.red.osp.opentlc.com 
+ssh -F ssh-jumpbox.cfg control
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-33
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-32
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-30
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-29
+ssh cloud-user@control.tok-hona-33.red.osp.opentlc.com 
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-33.red.osp.opentlc.com 
+ansible-doc | wc -l
+ansible-doc -l | wc -l
+git checkout -b config-ansible-multi-enhance-for-hona-02
+cp ~/Downloads/post_software.yml configs/ansible-multi-node
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-34
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-26
+cp /Users/tok/repos/courses/ansible_advanced/repos/ansible_advanced/modules/03_Modular_Ansible/03_01_Dictionary_Parsing_Body.adoc  .\n
+cp /Users/tok/repos/courses/ansible_advanced/repos/ansible_advanced/tools/* tools\n
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-35
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-34
+tail /Users/tok/repos/courses/ansible_advanced/repos/ansible_advanced/tools/00_0_Lab_Provision.adoc\n
+tail -20 /Users/tok/repos/courses/ansible_advanced/repos/ansible_advanced/tools/00_0_Lab_Provision.adoc\n
+ssh devops@control.tok-hona-35.red.osp.opentlc.com 
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-36
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-35
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-36
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-28
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/automationcontroller_cluster.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-ac-03
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-37
+vim configs/ansible-multi-node/setup-hands-on-aap2.yml
+cp 01_01_Setup_Ansible_Automation_Platform_2_lab.adoc 01_02_Getting_Started_with_ansible-navigator_lab.adoc
+git checkout -b config-ansible-multi-enhance-for-hona-03
+rg control_user configs/ansible-multi-node
+cp 01_02_Getting_Started_with_ansible-navigator_lab.adoc 02_02
+gh ansible-naviga
+cp ../../../ansible_automation_platform_foundations/modules/toc.properties ..
+git clone https://github.com/redhat-gpe/hands_on_ansible_automation_platform_2
+git fetch --tags --progress https://github.com/redhat-gpe/hands_on_ansible_automation_platform_2 +refs/heads/*:refs/remotes/origin/*
+ssh devops@control.9c27.dynamic.opentlc.com
+gc -am "ansible-multi-node post_software set ssh name to correct user"
+vim configs/ansible-advanced-v2/post_software.yml
+cp configs/ansible-multi-node/post_software.yml ~/Downloads
+yamllint configs/ansible-multi-node/post_software.yml
+vim configs/ansible-multi-node/post_software.yml +86
+vim configs/ansible-multi-node/sample_vars/hands_on_aap2.yml
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-38
+vim configs/ansible-multi-node/post_software.yml +84
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-39
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-40
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-38
+ssh devops@control.tok-hona-37.red.osp.opentlc.com 
+ssh cloud-user@control.tok-hona-37.red.osp.opentlc.com 
+ssh devops@control.tok-hona-40.red.osp.opentlc.com 
+mv 01_02_Getting_Started_with_ansible-navigator_lab.adoc 01_02_Getting_Started_with_ansible-navigator_Lab.adoc
+mv 01_02_Getting_Started_with_ansible-navigator_Lab.adoc 01_02
+rm /Users/tok/Dropbox/MBP15/repos/courses/hands_on_ansible_automation_platform_2/.git/index.lock
+mv 01_02 01_02_Getting_Started_with_ansible-navigator_Lab.adoc
+cp ../../../ansible_implementation_part1/modules/02_Ansible_Introduction/assessment.txt .
+vim configs/ansible-tower/post_software.yml
+git checkout -b config-ansible-multi-enhance-for-hona-04
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-41
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-40
+rg student_name configs/ansible-multi-node/
+rg control_ configs/ansible-multi-node/
+rg control_us configs/ansible-multi-node/
+rg control_us configs/ansible-multi-node/sample_vars/hands_on_aap2.yml
+rg lab configs/ansible-multi-node/sample_vars/hands_on_aap2.yml
+rg control configs/ansible-multi-node/sample_vars/hands_on_aap2.yml
+vim configs/ansible-multi-node/post_software.yml
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-42
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-41
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-42
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-43
+ssh devops@control.tok-hona-43.red.osp.opentlc.com 
+gt -a hands-on-ansible-automation-platform-2-v0.0.2 -m "HONA lab prod"
+git tag -a hands-on-ansible-automation-platform-2-v0.0.2 -m "HONA lab prod"
+ssh devops@control.7926.dynamic.opentlc.com
+cp 01_02_Getting_Started_with_ansible-navigator_Lab.adoc ../wip/01_03_Getting_Started_with_ansible-navigator_TUI_Lab.adoc
+ssh www.opentlc.com 
+mv ../wip/01_03_Getting_Started_with_ansible-navigator_TUI_Lab.adoc ~/Downloads
+cp 01_02_Getting_Started_with_ansible-navigator_Lab.adoc
+cp 01_02_Getting_Started_with_ansible-navigator_Lab.adoc 01_03_Getting_Started_with_automation_controller_Lab.adoc
+ssh devops@control.c0ae.dynamic.opentlc.com
+ssh devops@control.tok-hona-27.red.osp.opentlc.com
+ssh cloud-user@control.tok-hona-27.red.osp.opentlc.com
+ssh devops@control.tok-hona-33.red.osp.opentlc.com 
+vim modules/01_Hands_on_AAP2/01_02_Getting_Started_with_ansible-navigator_Lab.adoc +761\n 
+cp ~/repos/dojo-ansible-container-toolkit/lab-definitions/lab-ansible-flask-multitier-app/docker-compose.yml .
+cp ~/repos/dojo-ansible-container-toolkit/lab-definitions/lab-ansible-flask-multitier-app/ssh.cfg ssh-docker.cfg
+git checkout -b docker-version
+vim docker-compose.yml
+docker container rm frontend
+docker container rm control 
+docker container ls
+docker container ls -A
+docker container ls --all
+docker container rm control app-01 app-02 datasbase-01 appdb1
+docker compose -h
+docker compose rm
+ssh -F ssh-docker.cfg control
+docker compose down
+mv ssh-docker.cfg ssh-jumpbox.cfg ssh
+docker compose up -d
+vim ssh/ssh-docker.cfg
+ssh -F ssh/ssh-docker.cfg control
+ansible all -m ping
+ansible-galaxy collection install -r requirements.yml  
+ansible-playbook deploy-app.yml
+vim ansible.cfg
+vim 01_02_Getting_Started_with_ansible-navigator_Lab.adoc
+mv 01_02_Getting_Started_with_ansible-navigator_Lab.adoc foo
+ssh cloud-user@control.40e1.example.opentlc.com
+ssh cloud-user@control.40e1.example.opentlc.com -i ~/.ssh/opentlc_admin_backdoor.pem
+ssh cloud-user@control.40e1.example.opentlc.com -i ~/.ssh/ocpkey.pem
+ssh ec-user@control.40e1.example.opentlc.com
+ssh ec2-user@control.40e1.example.opentlc.com
+ssh ec2-user@control.40e1.example.opentlc.com -i ~/.ssh/opentlc_admin_backdoor.pem
+ansible-doc pip
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-43
+docker image ls | grep ki
+kubectl create deployment kiada --image=docker.io/luksa/kiada
+kubectl create deployment kiada1 --image=docker.io/luksa/kiada
+kubectl create deployment kiada1 --image=docker.io/luksa/kiada:0.1
+cd hands_on_ansible_automation_platform_2
+echo ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-43
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-44
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-44.red.osp.opentlc.com 
+cd ansible_flask_multitier_app
+ssh downloads.opentlc.com
+ssh www.opentlc.com
+docker run -it quay.io/ansible/ansible-navigator-demo-ee:0.4.0 bash
+gh ansible-nav
+gh ansible-runn
+ansible-doc -l | grep jenkins
+cd learning/ansible-builder
+ssh devops@control.tok-hona-44.red.osp.opentlc.com ls /tmp
+pip install -U ansible-builder
+ansible-builder -t tok-ee:01 
+ansible-builder build -t tok-ee:01 
+ansible-builder --help
+ansible-builder --build --help
+ansible-builder build --help
+ansible-builder build --container-runtime docker -t tok-ee:01
+docker image ls
+ansible-playbook ping.yml -i hosts
+pip install -U ansible-navigator
+ansible-navigator run -m stdout ping.yml -i hosts
+ansible-navigator --help
+ansible-navigator  --container-engine docker --help
+cat ansible-navigator.log
+pip install -U ansible ansible-builder ansible-navigator
+/Users/tok/virtual-envs/ansible-latest-complete/bin/python -m pip install --upgrade pip
+ansible-navigator --version
+pip install --pre -U ansible-builder ansible-navigator
+ansible-navigator run -m stdout  --container-engine docker ping.yml -i hosts
+docker image ls | head
+ansible-navigator run -m stdout  --container-engine docker --eei tok-ee:01 ping.yml -i hosts
+docker ps
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-45
+courses/hands_on_ansible_automation_platform_2
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-45.red.osp.opentlc.com 
+echo ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-27
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-27
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-33
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-37
+gc -am "Edits to M03 ansible-builder"
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-ac-01-project
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-44
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-46
+ansible-playbook destroy.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-46
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-47
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-47.red.osp.opentlc.com 
+ssh devops@control.tok-hona-44.red.osp.opentlc.com 
+ssh devops@control.tok-hona-45.red.osp.opentlc.com 
+ansible-playbook main.yml -e @configs/ansible-multi-node/sample_vars/hands_on_aap2.yml -e@~/secrets/openstack-red-secret.yml -e @~/secrets/satellite-rhel8-latest.yml -e @secrets-automationcontroller.yml -e guid=tok-hona-48
+ssh-copy-id -i ~/.ssh/id_rsa  devops@control.tok-hona-48.red.osp.opentlc.com 
+ssh devops@control.tok-hona-47.red.osp.opentlc.com 
+gc -am "Added ansible-builder lab back in"
+cd ansible_implementation_part1
+mcd ansible_execution_environment_utilities
+git remote add tok https://github.com/tonykay/ansible_execution_environment_utilities.git
+wc -l ../tools/virtualenvs/ansible2.9-python3.6.txt
+wc -l ../tools/virtualenvs/ansible2.10-python3.6.txt
+ansible-doc -l | rg openstack
+ansible-doc include_role
+ansible-doc import_role
+ssh devops@control.tok-hona-48.red.osp.opentlc.com 
+cd ansible_execution_environment_utilities
+docker image list
+docker image ee
+docker image list ee
+docker image list | head
+docker image list |  rg ee
+docker image list |  rg ee_
+docker image list |  rg "2..MB"
+docker image list vmlet-rhel-8-base 
+docker pull alpine
+docker image list alpine
+docker tag alpine tok_alpine
+docker tag tok_alpine quay.io/tok/tok_alpine
+docker login quay.io
+docker push quay.io/tok/tok_alpine
+docker image list | rg quay
+gh docker tag
+docker tag tok_alpine quay.io/tonykay/tok_alpine
+docker push quay.io/tonykay/tok_alpine
+workon ansible-latest-complete
+ansible-galaxy collction install containers.podman
+ansible-galaxy collection install containers.podman
+docker tag tok_alpine quay.io/tonykay/tok_alpine:0.0.1
+ansible-doc podman_image
+ansible-galaxy collection install containers.docker
+ansible-doc docker_image
+pip install docker
+docker pull busybox
+docker tag busybox tok_busybox
+ansible-playbook container_push.yml
+skopeo list-tags docker://quay.io/tonykay/tok_busybox
+ansible-playbook slide-fetch.yml
+ansible-playbook slide-fetch.yml -e course_name=list
+ansible-playbook slide-fetch.yml -e course_name=ocp4_advanced_application_deployment
+cd configs/ansible-multi-node
+git rm configs/ansible-multi-node/start.yml
+ssh-copy-id -i ~/.ssh/id_rsa devops@control.007c.dynamic.opentlc.com
+ssh dev
+ssh devops@control.007c.dynamic.opentlc.com
+../tools/bump_version.sh hands-on-ansible-automation-platform-2 prod
+ls configs/ansible-multi-node
+cd courses/hands_on_ansible_automation_platform_2
+ssh devops@control.71f0.dynamic.opentlc.com
+../hands_on_ansible_automation_platform_2
+ssh admin
+cd ansible-builder
+ansible-builder build
+pip install -U --pre ansible-builder
+ansible-navigator run test_01_simple_ping.yml -i localhost,
+cd courses/ansible_advanced/repos/ansible_advanced
+docker service create
+docker service create httpd
+cd repos/dojo-ansible-container-toolkit
+git merge fedora-ansible-control 
+fc -ln | rg "ansible|docker"
+grep docker ~/.zsh_history
+ansible all -m ping -i docker_inventory.py
+./docker_inventory.py ==list
+./docker_inventory.py --list
+pip install docker
+docker ps
+docker
+docker ps
+docker compose up -d
+docker container prune -a
+docker container prune --all
+docker container prune 
+docker compose up -d
+docker-compose --scale target=100
+docker-compose scale target=100
+docker ps | wc -l
+ansible all -m ping -i docker_inventory.py
+./docker_inventory.py --list
+wget #!/usr/bin/env python\n\nimport pyfscache\nimport argparse\nimport subprocess\ntry:\n    import json\nexcept ImportError:\n    import simplejson as json\n\ncache_it = pyfscache.FSCache('/tmp/docker-machine-inventory-cache', minutes = 1)\n\nclass SetEncoder(json.JSONEncoder):\n\n    def default(self, obj):\n        if isinstance(obj, set):\n              return list(obj)\n        return json.JSONEncoder.default(self, obj)\n\n\nclass DockerMachineCommand:\n    \n    def __run_command(self, *args):\n        return subprocess.check_output(["docker-machine"] + list(args)).strip()\n\n    def inspect(self, machine_name, format):\n        return self.__run_command("inspect", "-f", format, machine_name)\n\n    def status(self, machine_name):\n        return self.__run_command("status", machine_name)\n\n    def list_names(self):\n        return self.__run_command("ls", "-q").splitlines()\n\nclass SSHConfig:\n    def __init__(self, user, port, key_file):\n        self.user = user\n        self.port = port\n        self.key_file = key_file\n\n\nclass Host:\n    def __init__(self, name, ip_address, ssh_config, groups):\n        self.name = name\n        self.ip_address = ip_address\n        self.ssh_config = ssh_config\n        self.groups = groups\n\n\nclass DockerMachineInventoryApplication:\n\n    def __init__(self):\n        self.dm = DockerMachineCommand()\n\n    def __reduce_hosts_to_inventory(self, inventory, host):\n        inventory.setdefault("_meta", {}).setdefault("hostvars", {})[host.name] = {\n            "ansible_host": host.ip_address,\n            "ansible_ssh_user": host.ssh_config.user,\n            "ansible_ssh_port": host.ssh_config.port,\n            "ansible_ssh_private_key_file": host.ssh_config.key_file\n        };\n        inventory.setdefault("all", {}).setdefault("children", set()).update(host.groups)\n        inventory["all"].setdefault("hosts", set()).add(host.name)\n        for group in host.groups:\n           inventory.setdefault(group, {}).setdefault("hosts", set()).add(host.name)\n        return inventory\n\n    def __build_inventory(self, hosts):\n        return reduce(self.__reduce_hosts_to_inventory, hosts, {})\n\n    def __load_args(self):\n        parser = argparse.ArgumentParser(description='Produce an Ansible Inventory file based on Docker Machine status')\n        parser.add_argument('--list', action='store_true', help='List all active Droplets as Ansible inventory (default: True)')\n        self.args = parser.parse_args()\n\n    @cache_it\n    def __get_host(self, name):\n        ssh_config = SSHConfig(\n            user = self.dm.inspect(name, "{{.Driver.SSHUser}}"),\n            port = self.dm.inspect(name, "{{.Driver.SSHPort}}"),\n            key_file = self.dm.inspect(name, "{{.Driver.SSHKeyPath}}")\n        )\n        return Host(\n            name = name,\n            ip_address = self.dm.inspect(name, "{{.Driver.IPAddress}}"),\n            ssh_config = ssh_config,\n            groups = [\n                group for group in [\n                    self.dm.inspect(name, "{{.DriverName}}")\n                ] if group is not None\n            ]\n        )\n\n    def __get_hosts(self):\n        names = self.dm.list_names()\n        return map(self.__get_host, names)\n\n    def run(self):\n        self.__load_args()\n        hosts = self.__get_hosts()\n        print json.dumps(self.__build_inventory(hosts), cls=SetEncoder)\n\nDockerMachineInventoryApplication().run()#!/usr/bin/env python\n\nimport pyfscache\nimport argparse\nimport subprocess\ntry:\n    import json\nexcept ImportError:\n    import simplejson as json\n\ncache_it = pyfscache.FSCache('/tmp/docker-machine-inventory-cache', minutes = 1)\n\nclass SetEncoder(json.JSONEncoder):\n\n    def default(self, obj):\n        if isinstance(obj, set):\n              return list(obj)\n        return json.JSONEncoder.default(self, obj)\n\n\nclass DockerMachineCommand:\n    \n    def __run_command(self, *args):\n        return subprocess.check_output(["docker-machine"] + list(args)).strip()\n\n    def inspect(self, machine_name, format):\n        return self.__run_command("inspect", "-f", format, machine_name)\n\n    def status(self, machine_name):\n        return self.__run_command("status", machine_name)\n\n    def list_names(self):\n        return self.__run_command("ls", "-q").splitlines()\n\nclass SSHConfig:\n    def __init__(self, user, port, key_file):\n        self.user = user\n        self.port = port\n        self.key_file = key_file\n\n\nclass Host:\n    def __init__(self, name, ip_address, ssh_config, groups):\n        self.name = name\n        self.ip_address = ip_address\n        self.ssh_config = ssh_config\n        self.groups = groups\n\n\nclass DockerMachineInventoryApplication:\n\n    def __init__(self):\n        self.dm = DockerMachineCommand()\n\n    def __reduce_hosts_to_inventory(self, inventory, host):\n        inventory.setdefault("_meta", {}).setdefault("hostvars", {})[host.name] = {\n            "ansible_host": host.ip_address,\n            "ansible_ssh_user": host.ssh_config.user,\n            "ansible_ssh_port": host.ssh_config.port,\n            "ansible_ssh_private_key_file": host.ssh_config.key_file\n        };\n        inventory.setdefault("all", {}).setdefault("children", set()).update(host.groups)\n        inventory["all"].setdefault("hosts", set()).add(host.name)\n        for group in host.groups:\n           inventory.setdefault(group, {}).setdefault("hosts", set()).add(host.name)\n        return inventory\n\n    def __build_inventory(self, hosts):\n        return reduce(self.__reduce_hosts_to_inventory, hosts, {})\n\n    def __load_args(self):\n        parser = argparse.ArgumentParser(description='Produce an Ansible Inventory file based on Docker Machine status')\n        parser.add_argument('--list', action='store_true', help='List all active Droplets as Ansible inventory (default: True)')\n        self.args = parser.parse_args()\n\n    @cache_it\n    def __get_host(self, name):\n        ssh_config = SSHConfig(\n            user = self.dm.inspect(name, "{{.Driver.SSHUser}}"),\n            port = self.dm.inspect(name, "{{.Driver.SSHPort}}"),\n            key_file = self.dm.inspect(name, "{{.Driver.SSHKeyPath}}")\n        )\n        return Host(\n            name = name,\n            ip_address = self.dm.inspect(name, "{{.Driver.IPAddress}}"),\n            ssh_config = ssh_config,\n            groups = [\n                group for group in [\n                    self.dm.inspect(name, "{{.DriverName}}")\n                ] if group is not None\n            ]\n        )\n\n    def __get_hosts(self):\n        names = self.dm.list_names()\n        return map(self.__get_host, names)\n\n    def run(self):\n        self.__load_args()\n        hosts = self.__get_hosts()\n        print json.dumps(self.__build_inventory(hosts), cls=SetEncoder)\n\nDockerMachineInventoryApplication().run()
+wget -o docker.py https://gist.githubusercontent.com/bargenson/c95ef0360b233c3c862b5b3733e067f9/raw/5e1a4ed614d396efe637aa4be8996588f626a7e0/docker-machine.py
+chmod +x docker.py
+./docker.py --list
+vim docker.py
+vim docker.py 
+./docker.py --list
+ls ~/.ansible/collections/ansible_collections/community/docker/plugins
+ls ~/.ansible/collections/ansible_collections/community/docker/plugins/inventory
+ls ~/.ansible/collections/ansible_collections/community/docker/plugins/inventory/docker_machine.py
+~/.ansible/collections/ansible_collections/community/docker/plugins/inventory/docker_machine.py
+wget #!/usr/bin/env python\n\nimport pyfscache\nimport argparse\nimport subprocess\ntry:\n    import json\nexcept ImportError:\n    import simplejson as json\n\ncache_it = pyfscache.FSCache('/tmp/docker-machine-inventory-cache', minutes = 1)\n\nclass SetEncoder(json.JSONEncoder):\n\n    def default(self, obj):\n        if isinstance(obj, set):\n              return list(obj)\n        return json.JSONEncoder.default(self, obj)\n\n\nclass DockerMachineCommand:\n    \n    def __run_command(self, *args):\n        return subprocess.check_output(["docker-machine"] + list(args)).strip()\n\n    def inspect(self, machine_name, format):\n        return self.__run_command("inspect", "-f", format, machine_name)\n\n    def status(self, machine_name):\n        return self.__run_command("status", machine_name)\n\n    def list_names(self):\n        return self.__run_command("ls", "-q").splitlines()\n\nclass SSHConfig:\n    def __init__(self, user, port, key_file):\n        self.user = user\n        self.port = port\n        self.key_file = key_file\n\n\nclass Host:\n    def __init__(self, name, ip_address, ssh_config, groups):\n        self.name = name\n        self.ip_address = ip_address\n        self.ssh_config = ssh_config\n        self.groups = groups\n\n\nclass DockerMachineInventoryApplication:\n\n    def __init__(self):\n        self.dm = DockerMachineCommand()\n\n    def __reduce_hosts_to_inventory(self, inventory, host):\n        inventory.setdefault("_meta", {}).setdefault("hostvars", {})[host.name] = {\n            "ansible_host": host.ip_address,\n            "ansible_ssh_user": host.ssh_config.user,\n            "ansible_ssh_port": host.ssh_config.port,\n            "ansible_ssh_private_key_file": host.ssh_config.key_file\n        };\n        inventory.setdefault("all", {}).setdefault("children", set()).update(host.groups)\n        inventory["all"].setdefault("hosts", set()).add(host.name)\n        for group in host.groups:\n           inventory.setdefault(group, {}).setdefault("hosts", set()).add(host.name)\n        return inventory\n\n    def __build_inventory(self, hosts):\n        return reduce(self.__reduce_hosts_to_inventory, hosts, {})\n\n    def __load_args(self):\n        parser = argparse.ArgumentParser(description='Produce an Ansible Inventory file based on Docker Machine status')\n        parser.add_argument('--list', action='store_true', help='List all active Droplets as Ansible inventory (default: True)')\n        self.args = parser.parse_args()\n\n    @cache_it\n    def __get_host(self, name):\n        ssh_config = SSHConfig(\n            user = self.dm.inspect(name, "{{.Driver.SSHUser}}"),\n            port = self.dm.inspect(name, "{{.Driver.SSHPort}}"),\n            key_file = self.dm.inspect(name, "{{.Driver.SSHKeyPath}}")\n        )\n        return Host(\n            name = name,\n            ip_address = self.dm.inspect(name, "{{.Driver.IPAddress}}"),\n            ssh_config = ssh_config,\n            groups = [\n                group for group in [\n                    self.dm.inspect(name, "{{.DriverName}}")\n                ] if group is not None\n            ]\n        )\n\n    def __get_hosts(self):\n        names = self.dm.list_names()\n        return map(self.__get_host, names)\n\n    def run(self):\n        self.__load_args()\n        hosts = self.__get_hosts()\n        print json.dumps(self.__build_inventory(hosts), cls=SetEncoder)\n\nDockerMachineInventoryApplication().run()#!/usr/bin/env python\n\nimport pyfscache\nimport argparse\nimport subprocess\ntry:\n    import json\nexcept ImportError:\n    import simplejson as json\n\ncache_it = pyfscache.FSCache('/tmp/docker-machine-inventory-cache', minutes = 1)\n\nclass SetEncoder(json.JSONEncoder):\n\n    def default(self, obj):\n        if isinstance(obj, set):\n              return list(obj)\n        return json.JSONEncoder.default(self, obj)\n\n\nclass DockerMachineCommand:\n    \n    def __run_command(self, *args):\n        return subprocess.check_output(["docker-machine"] + list(args)).strip()\n\n    def inspect(self, machine_name, format):\n        return self.__run_command("inspect", "-f", format, machine_name)\n\n    def status(self, machine_name):\n        return self.__run_command("status", machine_name)\n\n    def list_names(self):\n        return self.__run_command("ls", "-q").splitlines()\n\nclass SSHConfig:\n    def __init__(self, user, port, key_file):\n        self.user = user\n        self.port = port\n        self.key_file = key_file\n\n\nclass Host:\n    def __init__(self, name, ip_address, ssh_config, groups):\n        self.name = name\n        self.ip_address = ip_address\n        self.ssh_config = ssh_config\n        self.groups = groups\n\n\nclass DockerMachineInventoryApplication:\n\n    def __init__(self):\n        self.dm = DockerMachineCommand()\n\n    def __reduce_hosts_to_inventory(self, inventory, host):\n        inventory.setdefault("_meta", {}).setdefault("hostvars", {})[host.name] = {\n            "ansible_host": host.ip_address,\n            "ansible_ssh_user": host.ssh_config.user,\n            "ansible_ssh_port": host.ssh_config.port,\n            "ansible_ssh_private_key_file": host.ssh_config.key_file\n        };\n        inventory.setdefault("all", {}).setdefault("children", set()).update(host.groups)\n        inventory["all"].setdefault("hosts", set()).add(host.name)\n        for group in host.groups:\n           inventory.setdefault(group, {}).setdefault("hosts", set()).add(host.name)\n        return inventory\n\n    def __build_inventory(self, hosts):\n        return reduce(self.__reduce_hosts_to_inventory, hosts, {})\n\n    def __load_args(self):\n        parser = argparse.ArgumentParser(description='Produce an Ansible Inventory file based on Docker Machine status')\n        parser.add_argument('--list', action='store_true', help='List all active Droplets as Ansible inventory (default: True)')\n        self.args = parser.parse_args()\n\n    @cache_it\n    def __get_host(self, name):\n        ssh_config = SSHConfig(\n            user = self.dm.inspect(name, "{{.Driver.SSHUser}}"),\n            port = self.dm.inspect(name, "{{.Driver.SSHPort}}"),\n            key_file = self.dm.inspect(name, "{{.Driver.SSHKeyPath}}")\n        )\n        return Host(\n            name = name,\n            ip_address = self.dm.inspect(name, "{{.Driver.IPAddress}}"),\n            ssh_config = ssh_config,\n            groups = [\n                group for group in [\n                    self.dm.inspect(name, "{{.DriverName}}")\n                ] if group is not None\n            ]\n        )\n\n    def __get_hosts(self):\n        names = self.dm.list_names()\n        return map(self.__get_host, names)\n\n    def run(self):\n        self.__load_args()\n        hosts = self.__get_hosts()\n        print json.dumps(self.__build_inventory(hosts), cls=SetEncoder)\n\nDockerMachineInventoryApplication().run()
+ansible all -m ping -i ~/.ansible/collections/ansible_collections/community/docker/plugins/inventory/docker_machine.py
+wget -N https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/docker.py
+pip install docker.py
+docker-py
+vim docker_containers.yml
+ansible all -m ping -i docker_containers.yml
+ls ~/.ansible/collections/ansible_collections/community/docker/plugins/inventory/
+vim docker_containers.yml
+ansible all -m ping -i docker_containers.yml
+vim ansible.cfg
+mv docker_containers.yml docker.yml
+ansible all -m ping -i docker.yml
+vim docker.yml
+docker --version
+docker-compose --version
+vim docker.yml
+ansible all -m ping -i docker.yml
+docker-compose scale target=20
+docker-compose --scale target=20
+docker compose --scale target=20
+docker compose up --scale target=25
+docker compose up --scale target=25 -d
+ansible-galaxy collection update community.docker
+ansible-galaxy collection install community.docker
+ansible all -m ping -i docker.yml
+vim docker.py
+vim docker.yml
+ansible all -m ping -i docker.yml
+vim ansible.cfg
+ansible-galaxy collection install community.docker --force
+ansible all -m ping -i docker.yml
+pip uninstall docker-py docker
+pip install docker
+ansible all -m ping -i docker.yml
+docker compose up --scale target=100 -d
+ansible all -m ping -i docker.yml
+ansible all -m ping -i docker.yml --forks=100
+docker compose up --scale target=200 -d
+docker compose up --scale target=400 -d
+docker ps
+docker ps | wc -l
+docker compose up --scale target=300
+ansible all -m ping -i docker.yml --forks=100
+docker compose down
+docker compose up --scale target=250
+ansible all -m ping -i docker.yml --forks=100
+docker ps | wc -l
+ansible all -m ping -i docker.yml --forks=100
+ansible all -m ping -i docker.yml --forks=5
+vim docker-compose.yml
+ansible 'lab-ssh-jump_target_52' -m ping -i docker.yml -vvvv
+ansible 'lab-ssh-jump_target_52' -m ping -vvvv
+ansible 'lab-ssh-jump_target_52,' -m ping -vvvv
+ansible all -i 'lab-ssh-jump_target_52,' -m ping -vvvv
+ssh -F ssh.cfg lab-ssh-jump_target_52
+ssh -F ssh.cfg control
+cd repos/dojo-ansible-container-toolkit
+ssh -F ssh.cfg control
+docker ps | head
+ssh -F ssh.cfg control
+cd repos/dojo-ansible-container-toolkit
+ansible targets -i inventory -m ping -vvvv
+ansible all -m ping -i docker.yml --forks=5 -c ssh
+ansible all -m ping -i docker.yml --forks=5 -c ssh -vvvv
+ssh -F ssh.cfg control
+ansible targets -i inventory -m ping -vvvv
+vim ansible.cfg
+ansible targets -i inventory -m ping -vvvv
+ssh -F ssh.cfg control
+ansible targets -i inventory -m ping -vvvv
+ssh -F ssh.cfg control
+vim docker.yml
+ansible targets -m ping -i docker.yml
+ansible lab-ssh-jump_target_445 -m ping -i docker.yml
+ansible lab-ssh-jump_target_445 -m ping -i docker.yml -vvvv
+ansible bastion-ssh-jump_target_445 -m ping -i docker.yml -vvvv
+ansible bastion -m ping -i docker.yml -vvvv
+vim docker.yml
+ansible bastion -m ping -i docker.yml -vvvv
+ssh -F ssh.cfg control
+ansible lab-ssh-jump_target_445 -m ping -i docker.yml -vvvv
+ansible control -m ping -i docker.yml -vvvv
+ansible control -m ping -i docker.yml -vvvv
+ansible control -m ping -i docker.yml -vvvv
+ssh -F ssh.cfg control
+ssh -F ssh.cfg control
+ssh -F ssh.cfg control
+ssh -F ssh.cfg lab-ssh-jump_target_445
+ssh -F ssh.cfg lab-ssh-jump_target_445 -vvvv
+ssh -F ssh.cfg lab-ssh-jump_target_445 -vvvv
+ssh  lab-ssh-jump_target_445 -vvvv
+ssh -F ssh.cfg  devops@lab-ssh-jump_target_445 -i ../../shared-assets/devops.pem
+ssh  devops@lab-ssh-jump_target_445 -i ../../shared-assets/devops.pem -J devops@localhost -p 2222 -i ../../shared-assets/devops.pem
+ssh  devops@lab-ssh-jump_target_445 -i ../../shared-assets/devops.pem -J devops@localhost -p 2222
+ssh  devops@localhost -p 2222
+vim docker-compose.yml
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg control # devops@localhost
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_1
+ssh -F ssh.cfg lab-ssh-jump_target_2
+vim docker.yml
+ansible control -m ping -i docker.yml -vvvv
+ansible control -m ping -i inventory -vvvv
+ansible control -m ping -i inventory -vvvv
+cp docker.yml docker_machine.yml
+vim docker_machine.yml
+ansible control -m ping -i docker_machine.yml -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i docker_machine.yml -vvvv
+ansible all -m ping -i docker_machine.yml -vvvv
+vim docker_machine.yml
+ansible all -m ping -i docker_machine.yml -vvvv
+vim ansible.cfg
+ansible all -m ping -i docker_machine.yml -vvvv
+ansible all -m ping -i docker_containers.yml
+ls -l docker_*
+ansible all -m ping -i docker_inventory.py
+ansible all -m ping -i docker-compose.yml
+vim docker-compose.yml
+cat docker.yml
+mv docker.yml docker_containers.yml\n
+ansible all -m ping -i docker-compose.yml -vvvv
+mv docker-compose.yml docker.yml
+ansible all -m ping -i docker.yml -vvvv
+vim docker.yml
+cp docker.yml docker-compose.yml
+cat docker_containers.yml
+ansible all -m ping -i docker_containers.yml -vvvv
+vim docker_containers.yml
+ansible all -m ping -i docker_containers.yml -vvvv
+vim docker_containers.yml
+ansible all -m ping -i docker_containers.yml -vvvv
+vim docker_containers.yml
+ansible all -m ping -i docker_containers.yml -vvvv
+vim ansible.cfg
+mv docker_containers.yml docker.yml
+ansible all -m ping -i docker.yml -vvvv
+vim docker.yml
+ansible bastion -m ping -i docker.yml -vvvv
+vim docker.yml
+ansible bastion -m ping -i docker.yml -vvvv
+vim docker.yml
+cat docker.yml
+ansible bastion -m ping -i docker.yml -vvvv
+ansible bastion -m ping -i docker.yml -vvvv
+ansible control -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+mv docker-compose.yml docker-machine.py docker_inventory.py docker_machine.yml archive
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible control -m ping -i inventory -vvvv
+cat ansible.cfg
+ansible control -m ping -i inventory -vvvv
+ansible control -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+docker compose up --scale control=0
+cp archive/docker-compose.yml .
+vim docker-compose.yml
+docker compose up --scale control=0
+docker compose stop control
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+docker compose start control
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+docker compose stop control
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+mv inventory docker.py optional-inventories
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -vvvv
+ansible lab-ssh-jump_target_1 -m ping -vvvv -i optional-inventories/inventory
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+docker compose start control
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -vvvv
+head ansible.cfg
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping -vvvv
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory -vvvv
+ansible lab-ssh-jump_target_1 -m ping -i inventory
+ansible lab-ssh-jump_target_1 -m ping -i optional-inventories/inventory
+vim ansible.cfg
+cp ansible.cfg ansible.cfg.bak
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping -i optional-inventories/inventory
+ansible lab-ssh-jump_target_1 -m ping 
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+cat ansible.cfg.bak
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+git add optional-inventories docker.yml
+cat docker.yml
+ansible bastion -m ping 
+ansible bastion -m ping -i docker.yml
+vim docker.yml
+cat ansible.cfg
+cat docker.yml
+vim docker.yml
+ansible bastion -m ping -i docker.yml
+vim docker.yml
+ansible bastion -m ping -i docker.yml
+vim docker.yml
+ansible bastion -m ping -i docker.yml
+vim docker.yml
+ansible bastion -m ping -i docker.yml -vvvv
+workon ansible-latest-complete
+ansible bastion -m ping -i docker.yml -vvvv
+ansible bastion -m ping -i docker.yml -vvvv
+ansible bastion -m ping 
+ansible lab-ssh-jump_target_1 -m ping 
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml
+vim docker.yml
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+vim docker.yml
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o "StrictHostKeyChecking=no"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o "StrictHostKeyChecking=no UserKnownHostsFile=/dev/null"\n"\n"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o "StrictHostKeyChecking=no UserKnownHostsFile=/dev/null"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o "StrictHostKeyChecking=no KnownHostsFile=/dev/null"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o "StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem "-o StrictHostKeyChecking=no" "-o UserKnownHostsFile=/dev/null"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem "-o StrictHostKeyChecking=no" "-o UserKnownHostsFile=/dev/null"
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFileii=/dev/null
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -F /dev/null
+ssh -J devops@localhost:2222 -i ../../shared-assets/devops.pem  devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -F /dev/null
+ssh -J devops@localhost:2222 devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -F /dev/null\n
+ssh -J devops@localhost:2222 -i  ../../shared-assets/devops.pem  devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -F /dev/null\n
+ansible lab-ssh-jump_target_1 -m ping -i docker.yml -vvvv
+ansible lab-ssh-jump_target_1 -m ping -vvvv
+cat ansible.cfg
+vim docker_machine.yml
+cat optional-inventories/docker.py
+cat docker.yml
+vim docker_machine.yml
+ansible lab-ssh-jump_target_1 -m ping -vvvv  -i docker_machine.yml
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping -vvvv  -i docker_machine.yml
+vim docker_machine.yml
+ansible-inventory -i docker_machine.yml --list
+ansible-inventory -i docker.yml --list
+vim docker_machine.yml
+ansible-inventory -i docker_machine.yml --list
+vim docker_machine.yml
+ansible-inventory -i docker_machine.yml --list
+ansible-inventory -i docker_machine.yml --host lab-ssh-jump_target_98
+ansible-inventory -i docker_machine.yml --host "lab-ssh-jump_target_98"
+ansible-inventory -i docker_machine.yml --host "control"
+ansible-inventory -i docker_machine.yml --graph
+ansible-inventory -i optional-inventories/docker.py --list
+mv optional-inventories/docker.py ~/Downloads/ssh-lab-archive-files
+mv docker_machine.yml ~/Downloads/ssh-lab-archive-files
+mv docker.yml optional-inventories
+mv ansible.cfg.bak ~/Downloads/ssh-lab-archive-files
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+vim ansible.cfg
+ansible lab-ssh-jump_target_1 -m ping 
+ansible control -m ping 
+ssh -J devops@localhost:2222  devops@lab-ssh-jump_target_1 -i ../../shared-assets/devops.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -F /dev/null\n
+docker compose stop 
+docker ps
+alias dk="dkill $(docker ps -q)"
+docker ps
+docker container prune
+docker compose up 
+docker ps
+docker compose up -d
+ansible control -m ping 
+docker compose down
+docker compose -p foo up -d
+docker compose down
+docker compose -p foo down 
+docker compose up -d
+ansible-playbook example-ping-playbook.yml
+ansible-playbook example-ping-playbook.yml
+ansible-inventory -i optional-inventories/docker.yml --list
+ansible-playbook example-ping-playbook.yml
+tail -2000 ~/.zsh_history | rg "^ssh|docker|ansible" | uniq
+fc -ln -2000 | rg "^ssh|docker|ansible" | uniq
