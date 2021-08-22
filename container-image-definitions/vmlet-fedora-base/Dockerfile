@@ -1,14 +1,11 @@
-###  syntax # = docker/dockerfile:1.0-experimental
+# syntax=docker/dockerfile:1.2
 
 ARG ARCH
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION:-latest}
-#ARG REPO_ARCH=
-#ENV REPO_ARCH=${REPO_ARCH:-x86_64}
 
-# ssh, systemd, passwordless sudo container for ansible target use etc
-#
-# docker run --privileged -d -p 2222:22 --rm --name vmlet-rhel-8-base
+# sshd, systemd, passwordless sudo container for ansible target use etc
+# docker run --privileged -d -p 2222:22 --rm --name vmlet-fedora-base
 
 LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com"
 
@@ -27,12 +24,20 @@ ENV PYTHON_VERSION=38
 # 4) OPTIONAL, enable passwordless sudo   
 
 
-# Configure ssh keys AND add the password 'devops' for the devops user
+# Configure ssh keys AND set the password 'devops' for the devops user
+# Configure sshd using a typical RHEL 8.4 config
+
 COPY ssh_config_dir_resources/* /home/${SSH_USER}/.ssh/
+COPY sshd_config/*  /etc/ssh
+
+# The SSH_USER_PASSWORD is devops but full support for ssh keys is baked in
+# Configure ssh keys AND add the password 'devops' for the devops user
 
 ENV SSH_USER_PASSWORD='$6$tWkgXG0kU57p7Rjc$ZCvOpW.oHLT0l6KEnk8CUW.o2OjP7vtnly8YbhXMd4ArugznNQFEwkpMR2S7hHLZxrjYIKFgCXLtBakh21Z4t0'
 
-RUN dnf update -y \
+
+RUN rm -f /etc/yum.repos.d/fedora-cisco-openh264.repo \
+    && dnf update -y \
     && dnf install -y \
       bind-utils \
       file \
@@ -53,7 +58,7 @@ RUN dnf update -y \
     && echo "RSAAuthentication yes" >> /etc/ssh/sshd_config \
     && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config \
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
-    && systemctl enable sshd.service \
+    && systemctl enable --now sshd.service \
     && useradd --uid 1000 ${SSH_USER} \
     && mkdir -p /home/${SSH_USER}/.ssh \
     && chmod 600 /home/${SSH_USER}/.ssh/* \
@@ -72,18 +77,14 @@ RUN dnf update -y \
       rm -f /lib/systemd/system/basic.target.wants/* \
       rm -f /lib/systemd/system/anaconda.target.wants/*
 
-RUN rm -f /run/nologin
-
 EXPOSE ${SSH_PORT:-22}
 
+#RUN systemctl enable sshd.service
+
 COPY entrypoint.sh /entrypoint.sh
-COPY sshd_config/ssh/sshd_config /etc/ssh/sshd_config
-COPY sshd_config/ssh/ssh_config /etc/ssh/ssh_config
-COPY sshd_config/ssh/ssh_config.d/05-redhat.conf /etc/ssh/ssh_config.d/05-redhat.conf
 
 # USER devops # Fix via sudo in CMD?
 
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/sbin/init"]
-
