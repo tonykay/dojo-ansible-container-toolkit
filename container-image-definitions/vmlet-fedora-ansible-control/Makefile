@@ -1,4 +1,4 @@
-IMAGE_NAME=vmlet-fedora-base
+IMAGE_NAME=vmlet-fedora-ansible-control
 
 REGISTRY 							= quay.io/tonykay
 CONTAINER_RUNTIME 		= docker

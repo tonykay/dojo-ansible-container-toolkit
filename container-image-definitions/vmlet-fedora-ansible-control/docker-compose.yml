@@ -9,9 +9,10 @@ networks:
 services:
 
   base:
-    image: quay.io/tonykay/vmlet-rhel-8-base
-    container_name: base
-    hostname: base
+    #image: quay.io/tonykay/vmlet-fedora-ansible-control
+    image: vmlet-fedora-ansible-control
+    container_name: ansible
+    hostname: ansible
     ports:
       - "2222:22"
     privileged: true

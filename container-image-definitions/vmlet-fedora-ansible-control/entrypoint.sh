@@ -15,6 +15,8 @@ then
 #  echo SSH_DIR_SOURCE not set, use defaults or bind_mounts
 fi
 
-# rm -fr /tmp/classroom
+# Annoying fedora issue where init seems to create a /run/nologin
+(sleep 5; sudo rm -f /run/nologin) &
+(sleep 10; sudo rm -f /run/nologin) &
 
 exec "$@"
