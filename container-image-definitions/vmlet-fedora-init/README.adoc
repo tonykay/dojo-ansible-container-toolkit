@@ -1,0 +1,9 @@
+== Overview
+
+Base image for `fedora-init` containers.
+Heavily based on link:https://github.com/robertdebock/docker-fedora-systemd[Robert de Bock's repo]
+
+
+=== Usage
+
+Typically just as a base for `-init` containers e.g. link:file://../vmlet-fedora-base[vmlet-fedora-base] 
