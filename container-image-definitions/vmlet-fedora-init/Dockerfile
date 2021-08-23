@@ -1,9 +1,11 @@
 # syntax=docker/dockerfile:1.2
+
 ARG ARCH
 
 FROM fedora:latest
 
-LABEL maintainer="Robert de Bock <robert@meinit.nl>"
+LABEL maintainer="Tok - Tony Kay tony.g.kay@gmail.com>"
+# Based almost entirely on Robert de Bock's https://github.com/robertdebock/docker-fedora-systemd
 
 ENV container=docker
 

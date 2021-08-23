@@ -10,13 +10,11 @@ services:
 
   base:
     #image: quay.io/tonykay/vmlet-fedora-ansible-control
-    image: vmlet-fedora-ansible-control
-    container_name: ansible
-    hostname: ansible
+    image: vmlet-fedora-init
+    container_name: fedora
+    hostname: fedora
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    ports:
-      - "2222:22"
     privileged: true
 
 ...

@@ -2,8 +2,8 @@
 
 ARG ARCH
 ARG FEDORA_VERSION
-#FROM fedora-init:${FEDORA_VERSION:-latest}
-FROM debock-fedora-init:latest
+FROM fedora-init:${FEDORA_VERSION:-latest}
+#FROM debock-fedora-init:latest
 
 
 # sshd, systemd, passwordless sudo container for ansible target use etc

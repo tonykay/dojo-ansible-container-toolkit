@@ -1,4 +1,4 @@
-IMAGE_NAME 						= vmlet-fedora-init
+IMAGE_NAME 						= fedora-init
 
 REGISTRY 							= quay.io/tonykay
 CONTAINER_RUNTIME 		= docker
@@ -36,15 +36,6 @@ build-arm : ##    EXTRA_ARGS='--squash --no-cache' for example
 		-t $(IMAGE_NAME) \
 	  --build-arg=ARCH=aarch64 \
 		--platform linux/arm64/v8 \
-		$(EXTRA_ARGS) .
-
-build-epel : ## Do a docker based build using a Dockerfile with EPEL
-build-epel : ##    EXTRA_ARGS='--squash' for example
-	DOCKER_BUILDKIT=1 \
-		docker build \
-		-f Dockerfile-vmlet-rhel-8-epel \
-		-t $(IMAGE_NAME)-epel \
-		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
 		$(EXTRA_ARGS) .
 
 tag : ## Tag the image

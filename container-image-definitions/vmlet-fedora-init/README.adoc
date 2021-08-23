@@ -1,9 +1,16 @@
 == Overview
 
-Base image for `fedora-init` containers.
+Base image for `vmlet-fedora-*` containers.
 Heavily based on link:https://github.com/robertdebock/docker-fedora-systemd[Robert de Bock's repo]
 
 
 === Usage
 
-Typically just as a base for `-init` containers e.g. link:file://../vmlet-fedora-base[vmlet-fedora-base] 
+Typically just as a base for _vmlet_ containers running `sshd` etc e.g. link:file://../vmlet-fedora-base[vmlet-fedora-base] 
+Not really intended for use by itself.
+Performs a similar function to Red Hat's `ubi-init` 
+
+=== Platforms
+
+* x86
+* ARM # Developed and tested on Apple M1

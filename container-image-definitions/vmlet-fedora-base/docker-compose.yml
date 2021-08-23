@@ -13,6 +13,8 @@ services:
     image: vmlet-fedora-base
     container_name: base
     hostname: base
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
     ports:
       - "2222:22"
     privileged: true
