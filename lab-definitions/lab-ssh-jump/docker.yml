@@ -1,0 +1,10 @@
+plugin: community.docker.docker_containers
+connection_type: ssh
+private_ssh_port: 22
+use_ssh_client: yes
+groups:
+  targets: "'target' in docker_name"
+  bastion: "'control' in docker_name"
+#compose:
+#  ansible_ssh_host: "docker_name"
+#  ansible_ssh_port: 22
