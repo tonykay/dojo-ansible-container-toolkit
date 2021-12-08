@@ -1,0 +1,41 @@
+---
+# Simple ssh jumpbox example 
+
+networks:
+  default:
+    name: example.com
+
+services:
+
+  control:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    container_name: control
+    hostname: control
+    privileged: true
+    ports:
+      - "2222:22"
+
+  target:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    privileged: true
+
+  web:
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    privileged: true
+
+  app:
+    container_name: app
+    image: quay.io/tonykay/vmlet-rhel-8-base
+    privileged: true
+
+  jenkins:
+    image: docker.io/jenkins/jenkins
+    ports:
+      - 8080:8080
+      - 50000:50000
+        #    volumes:
+#      - "jenkins:/var/jenkins_home"
+#
+#        #combined_instances: "{{ envy_instances | union(addon_instances) }}"
+
+...

@@ -32,23 +32,13 @@ build : ##    EXTRA_ARGS='--squash --no-cache' for example
 
 build-arm : ## Do a docker based build
 build-arm : ##    EXTRA_ARGS='--squash --no-cache' for example
-	DOCKER_BUILDKIT=1 \
-		docker buildx build \
-		-f Dockerfile \
-		-t $(IMAGE_NAME) \
+  DOCKER_BUILDKIT=1 \
+    docker buildx build \
+    -t $(IMAGE_NAME) \
 		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
-	  --build-arg=ARCH=aarch64 \
-		--platform linux/arm64/v7 \
-		$(EXTRA_ARGS) .
-
-build-epel : ## Do a docker based build using a Dockerfile with EPEL
-build-epel : ##    EXTRA_ARGS='--squash' for example
-	DOCKER_BUILDKIT=1 \
-		docker build \
-		-f Dockerfile-vmlet-rhel-8-epel \
-		-t $(IMAGE_NAME)-epel \
-		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
-		$(EXTRA_ARGS) .
+    --build-arg=ARCH=aarch64 \
+    --platform linux/arm64/v8 \
+    $(EXTRA_ARGS) .
 
 tag : ## Tag the image
 	docker tag $(IMAGE_NAME) $(REGISTRY)/$(IMAGE_NAME):latest

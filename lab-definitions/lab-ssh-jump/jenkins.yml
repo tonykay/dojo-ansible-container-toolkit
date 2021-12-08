@@ -1,0 +1,19 @@
+---
+
+envy_addon_volumes:
+  - name: jenkins
+
+addon_instances:
+
+  - name: jenkins
+    group: jenkins
+    image: jenkins
+    published_ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - "jenkins:/var/jenkins_home"
+
+        #combined_instances: "{{ envy_instances | union(addon_instances) }}"
+
+...

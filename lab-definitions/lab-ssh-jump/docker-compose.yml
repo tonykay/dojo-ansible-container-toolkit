@@ -19,3 +19,4 @@ services:
     image: quay.io/tonykay/vmlet-rhel-8-base
     privileged: true
 
+...
