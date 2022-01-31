@@ -5,7 +5,7 @@ CONTAINER_RUNTIME 		= docker
 ARCH 									= x86_64
 
 CONTAINER_HOSTNAME 		= base
-RHEL_VERSION 					= 8.4
+RHEL_VERSION 					= 8.5
 SSH_PORT 							= 2222
 SHELL_COMMAND 				= sudo su - devops
 

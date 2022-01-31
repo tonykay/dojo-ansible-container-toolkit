@@ -1,5 +1,3 @@
-
-
 ###  syntax # = docker/dockerfile:1.0-experimental
 
 ARG ARCH
@@ -21,22 +19,13 @@ ENV SSH_USER=devops
 ENV PYTHON_VERSION=38
 # ENV SSH_KEY_NAME=devops
 
-# CentOS openssh-server to not break UBI restrictions
-
-ENV SSH_RPM=openssh-8.0p1-6.el8_4.2.${REPO_ARCH}.rpm
-ENV SSH_CLIENT_RPM=openssh-clients-8.0p1-6.el8_4.2.${REPO_ARCH}.rpm
-ENV SSH_SERVER_RPM=openssh-server-8.0p1-6.el8_4.2.${REPO_ARCH}.rpm
-ENV SSH_RPM_HOME=http://mirror.centos.org/centos/8/BaseOS/${REPO_ARCH}/os/Packages/
-
 # These keys are "well known" vagrant keys - they are NOT for production use
 # ENV SSH_PUBLIC_KEY_URL=https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
 # ENV SSH_PRIVATE_KEY_URL=https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant
 
-# 1) Install, configure, and enable sshd using *CentOS* RPM, RHEL RPM not distributable with ubi
-# 2) Add a user and ssh public key 
-# 3) Add EPEL? dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
-# 4) OPTIONAL, enable passwordless sudo   
-
+# 1) Add a user and ssh public key 
+# 2) Add EPEL? dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
+# 3) OPTIONAL, enable passwordless sudo   
 
 # Configure ssh keys AND add the password 'devops' for the devops user
 COPY ssh_config_dir_resources/* /home/${SSH_USER}/.ssh/
@@ -54,11 +43,11 @@ RUN dnf update -y \
       less \
       libedit \
       ncurses \
+      openssh \
+      openssh-clients \
+      openssh-server \
       python${PYTHON_VERSION:-36} \
       sudo \
-    && rpm -Uvh ${SSH_RPM_HOME}${SSH_RPM} \
-    && rpm -Uvh ${SSH_RPM_HOME}${SSH_SERVER_RPM} \
-    && rpm -Uvh ${SSH_RPM_HOME}${SSH_CLIENT_RPM} \
     && echo "RSAAuthentication yes" >> /etc/ssh/sshd_config \
     && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config \
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
