@@ -4,7 +4,7 @@ CONTAINER_RUNTIME 		= docker
 
 CONTAINER_HOSTNAME 		= terminal
 #RHEL_VERSION 					= 8.3
-SSH_PORT 							= 2222
+SSH_PORT 							= 2223
 TERMINAL_PORT 				= 8888
 SHELL_COMMAND 				= sudo su - devops
 
@@ -62,7 +62,6 @@ docker-run : ## Run image via docker with sensible defaults
 		--name $(CONTAINER_HOSTNAME) \
 		--hostname $(CONTAINER_HOSTNAME) \
 		--rm \
-		-p $(SSH_PORT):22 \
 		-p $(SSH_PORT):22 \
 		$(REGISTRY)/$(IMAGE_NAME) 
 
