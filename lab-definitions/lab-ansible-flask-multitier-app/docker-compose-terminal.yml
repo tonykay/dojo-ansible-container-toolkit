@@ -1,0 +1,18 @@
+---
+
+networks:
+  default:
+      name: example.com
+
+services:
+
+  lab-terminal:
+    image: quay.io/tonykay/service-rhel-8-terminal-base 
+    container_name: lab-terminal
+    hostname: lab-terminal
+    privileged: true
+    ports:
+      - "2223:22"           # Direct ssh access localhost 2222 devops/vagrant key
+      - "81:8888"           # Browser based terminal session
+
+...

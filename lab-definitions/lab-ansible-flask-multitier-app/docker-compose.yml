@@ -13,7 +13,7 @@ services:
     privileged: true
     ports:
       - "2223:22"           # Direct ssh access localhost 2222 devops/vagrant key
-      - "10080:8888"        # Browser based terminal session
+      - "8000:8888"        # Browser based terminal session
 
   lab-httpd:
     image: registry.redhat.io/rhel8/httpd-24
