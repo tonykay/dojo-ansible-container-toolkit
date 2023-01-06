@@ -1,22 +1,15 @@
 ---
 version: "2.1"
 services:
-  code-server:
-    image: lscr.io/linuxserver/code-server
-    container_name: code-server
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Denver
-#      - PASSWORD=password #optional
-#      - HASHED_PASSWORD= #optional
-#      - SUDO_PASSWORD=password #optional
-#      - SUDO_PASSWORD_HASH= #optional
-#      - PROXY_DOMAIN=code-server.my.domain #optional
-#      - DEFAULT_WORKSPACE=/config/workspace #optional
+  vsc-server:
+    image: vsc:0.0.8
+    container_name: vsc
+    hostname: vsc
     volumes:
-       - /tmp/config:/config
-      # - /path/to/appdata/config:/config
+      - ./config:/home/devops/.config
+      - .:/home/devops/config
     ports:
-      - 8443:8443
+      - 8080:8080
+    environment:
+      - "DOCKER_USER=$USER"
     restart: unless-stopped
