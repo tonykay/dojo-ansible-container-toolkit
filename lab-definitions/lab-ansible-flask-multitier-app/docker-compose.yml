@@ -7,7 +7,8 @@ networks:
 services:
 
   lab-terminal:
-    image: quay.io/tonykay/service-rhel-8-terminal-base 
+    image: docker.io/tonykay/service-rhel-8-terminal-base
+    #image:  quay.io/tonykay/service-rhel-8-terminal-base
     container_name: lab-terminal
     hostname: lab-terminal
     privileged: true
@@ -27,7 +28,7 @@ services:
       - "80:8080"
 
   control:
-    image: quay.io/tonykay/vmlet-rhel-8-ansible-control
+    image: docker.io/tonykay/vmlet-rhel-8-ansible-control
     container_name: control
     hostname: control
     ports:
@@ -37,7 +38,7 @@ services:
       # - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
     
   frontend:
-    image: quay.io/tonykay/vmlet-rhel-8-base
+    image: docker.io/tonykay/vmlet-rhel-8-base
     container_name: frontend
     hostname: frontend
     ports:
@@ -45,19 +46,19 @@ services:
     privileged: true
 
   app-01:
-    image: quay.io/tonykay/vmlet-rhel-8-base
+    image: docker.io/tonykay/vmlet-rhel-8-base
     container_name: app-01
     hostname: app-01
     privileged: true
 
   app-02:
-    image: quay.io/tonykay/vmlet-rhel-8-base
+    image: docker.io/tonykay/vmlet-rhel-8-base
     container_name: app-02
     hostname: app-02
     privileged: true
 
   appdb1:
-    image: quay.io/tonykay/vmlet-rhel-8-base
+    image: docker.io/tonykay/vmlet-rhel-8-base
     container_name: appdb1
     hostname: appdb1
     privileged: true

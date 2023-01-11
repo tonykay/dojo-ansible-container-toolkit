@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.0-experimental
 
-FROM service-rhel-8-terminal-base
+FROM docker.io/tonykay/service-rhel-8-terminal-base
 
 # Install latest ansible 2.9 version
 

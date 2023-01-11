@@ -14,7 +14,8 @@
 				<div class="tab">
 					<button class="tablinks" onclick="openTerminal(event, 'terminal_tab_01')" id="defaultOpen" tabindex="0">Terminal</button>
 					<!-- button class="tablinks" onclick="openTerminal(event, 'terminal_tab_02')">Terminal 2</button -->
-					<button class="tablinks" onclick="openTerminal(event, 'docs_tab')">Ansible Docs</button>
+					<button class="tablinks" onclick="openTerminal(event, 'docs_tab')">VS Code</button>
+					<button class="tablinks" onclick="openTerminal(event, 'ocp_tab')">OpenShift</button>
 				</div>
 					<div id="terminal_tab_01" class="tabcontent">
 
@@ -30,7 +31,13 @@
 						<iframe id="terminal_2" src="http://localhost:8000" width="100%" style="border:none;"></iframe>
 					</div>
 					<div id="docs_tab" class="tabcontent">
-						<iframe id="docs" src="https://docs.ansible.com" width="100%" style="border:none;"></iframe>
+						<iframe id="docs" src="http://localhost:8088" width="100%" style="border:none;"></iframe>
+					</div>
+					<div id="docs_tab" class="tabcontent">
+						<iframe id="docs" src="http://localhost:8088" width="100%" style="border:none;"></iframe>
+					</div>
+					<div id="ocp_tab" class="tabcontent">
+						<iframe id="docs" src="https://console-openshift-console.apps.cluster-fbkqx.sandbox2783.opentlc.com" width="100%" style="border:none;"></iframe>
 					</div>
 				</div>
 			</div>

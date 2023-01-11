@@ -3,8 +3,7 @@
 # ARG RHEL_VERSION
 #FROM registry.access.redhat.com/ubi8/ubi-init:${RHEL_VERSION:-latest}
 
-
-FROM quay.io/tonykay/vmlet-rhel-8-base:latest 
+FROM docker.io/tonykay/vmlet-rhel-8-base:latest 
 
 #vmlet-rhel-8-base
 # ssh, systemd, passwordless sudo container for ansible target use etc

@@ -1,6 +1,6 @@
 IMAGE_NAME 						= vmlet-rhel-8-base
 
-REGISTRY 							= quay.io/tonykay
+REGISTRY 							= docker.io/tonykay
 CONTAINER_RUNTIME 		= docker
 ARCH 									= x86_64
 
@@ -20,15 +20,13 @@ help: ## Show this help - technically unnecessary as `make` alone will do
 # Thanks to victoria.dev for the above syntax
 # https://victoria.dev/blog/how-to-create-a-self-documenting-makefile/
 
-build : ## Do a docker based build
-build : ##    EXTRA_ARGS='--squash --no-cache' for example
-	DOCKER_BUILDKIT=1 \
-		docker build \
-		-f Dockerfile \
-		-t $(IMAGE_NAME) \
-		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
-		--build-arg=ARCH=x86_64 \
-		$(EXTRA_ARGS) .
+build-multi : ## Do a docker based build
+build-multi : ##    EXTRA_ARGS='--squash --no-cache' for example
+	docker buildx build \
+    --platform linux/arm64/v8,linux/amd64 \
+    --tag $(REGISTRY)/$(IMAGE_NAME):$${VERSION:-latest} \
+    --push \
+    $(EXTRA_ARGS) .
 
 build-arm : ## Do a docker based build
 build-arm : ##    EXTRA_ARGS='--squash --no-cache' for example

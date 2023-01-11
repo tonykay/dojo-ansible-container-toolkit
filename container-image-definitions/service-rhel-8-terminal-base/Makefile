@@ -1,9 +1,9 @@
 IMAGE_NAME 						= service-rhel-8-terminal-base
-REGISTRY 							= quay.io/tonykay
+REGISTRY 							= docker.io/tonykay
 CONTAINER_RUNTIME 		= docker
 
 CONTAINER_HOSTNAME 		= terminal
-#RHEL_VERSION 					= 8.3
+RHEL_VERSION 					= 8.7
 SSH_PORT 							= 2223
 TERMINAL_PORT 				= 8888
 SHELL_COMMAND 				= sudo su - devops
@@ -19,15 +19,14 @@ help: ## Show this help - technically unnecessary as `make` alone will do
 # Thanks to victoria.dev for the above syntax
 # https://victoria.dev/blog/how-to-create-a-self-documenting-makefile/
 
-build : ## Do a docker based build
-build : ##    EXTRA_ARGS='--squash' for example
-	DOCKER_BUILDKIT=1 \
-		docker build \
-		-f Dockerfile \
-		-t $(IMAGE_NAME) \
-		$(EXTRA_ARGS) .
 
-#		--build-arg=RHEL_VERSION=$(RHEL_VERSION) \
+build-multi : ## Do a docker based build
+build-multi : ##    EXTRA_ARGS='--squash --no-cache' for example
+	docker buildx build \
+    --platform linux/arm64/v8,linux/amd64 \
+    --tag $(REGISTRY)/$(IMAGE_NAME):$${VERSION:-latest} \
+    --push \
+    $(EXTRA_ARGS) .
 
 build-epel : ## Do a docker based build using a Dockerfile with EPEL
 build-epel : ##    EXTRA_ARGS='--squash' for example
