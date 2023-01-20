@@ -1,0 +1,7 @@
+my_slide_order:
+  - intro
+  - architecture_diagram
+  - overview_ee
+  - overview_tekton
+  - overview_tagging
+  - conclusion

@@ -25,7 +25,7 @@ services:
       - "./lab-html-content:/var/www/html:z,ro"
         #    privileged: true
     ports:
-      - "9001:8080"
+      - "80:8080"
 
   control:
     image: docker.io/tonykay/vmlet-rhel-8-ansible-control
