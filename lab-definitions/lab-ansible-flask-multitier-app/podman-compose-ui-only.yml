@@ -11,7 +11,7 @@ services:
     #image:  quay.io/tonykay/service-rhel-8-terminal-base
     container_name: lab-terminal
     hostname: lab-terminal
-    privileged: true
+      # privileged: true
     ports:
       - "2223:22"           # Direct ssh access localhost 2222 devops/vagrant key
       - "8000:8888"        # Browser based terminal session
@@ -27,40 +27,40 @@ services:
     ports:
       - "80:8080"
 
-  control:
-    image: docker.io/tonykay/vmlet-rhel-8-ansible-control
-    container_name: control
-    hostname: control
-    ports:
-      - "2222:22"
-    privileged: true
-      #volumes:
-      # - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
-    
-  frontend:
-    image: docker.io/tonykay/vmlet-rhel-8-base
-    container_name: frontend
-    hostname: frontend
-    ports:
-      - "8080:80"
-    privileged: true
-
-  app-01:
-    image: docker.io/tonykay/vmlet-rhel-8-base
-    container_name: app-01
-    hostname: app-01
-    privileged: true
-
-  app-02:
-    image: docker.io/tonykay/vmlet-rhel-8-base
-    container_name: app-02
-    hostname: app-02
-    privileged: true
-
-  appdb1:
-    image: docker.io/tonykay/vmlet-rhel-8-base
-    container_name: appdb1
-    hostname: appdb1
-    privileged: true
-
+  # control:
+  #   image: docker.io/tonykay/vmlet-rhel-8-ansible-control
+  #   container_name: control
+  #   hostname: control
+  #   ports:
+  #     - "2222:22"
+  #   privileged: true
+  #     #volumes:
+  #     # - "../bind_mounts/ssh:/opt/app-root/src/.ssh:z,ro"
+  #   
+  # frontend:
+  #   image: docker.io/tonykay/vmlet-rhel-8-base
+  #   container_name: frontend
+  #   hostname: frontend
+  #   ports:
+  #     - "8080:80"
+  #   privileged: true
+  #
+  # app-01:
+  #   image: docker.io/tonykay/vmlet-rhel-8-base
+  #   container_name: app-01
+  #   hostname: app-01
+  #   privileged: true
+  #
+  # app-02:
+  #   image: docker.io/tonykay/vmlet-rhel-8-base
+  #   container_name: app-02
+  #   hostname: app-02
+  #   privileged: true
+  #
+  # appdb1:
+  #   image: docker.io/tonykay/vmlet-rhel-8-base
+  #   container_name: appdb1
+  #   hostname: appdb1
+  #   privileged: true
+  #
 ...
